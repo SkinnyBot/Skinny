@@ -70,6 +70,7 @@ class Configure
                 ini_set('display_errors', $config['debug'] ? 1 : 0);
             }
         }
+
         return true;
     }
 
@@ -92,6 +93,7 @@ class Configure
         if ($var === null) {
             return static::$_values;
         }
+
         return Hash::get(static::$_values, $var);
     }
 
@@ -107,6 +109,7 @@ class Configure
         if (empty($var)) {
             return false;
         }
+
         return Hash::get(static::$_values, $var) !== null;
     }
 
@@ -147,10 +150,12 @@ class Configure
         if ($simple) {
             $value = static::$_values[$var];
             unset(static::$_values[$var]);
+
             return $value;
         }
         $value = Hash::get(static::$_values, $var);
         static::$_values = Hash::remove(static::$_values, $var);
+
         return $value;
     }
 
@@ -187,6 +192,7 @@ class Configure
         if ($merge) {
             $values = Hash::merge(static::$_values, $values);
         }
+
         return static::write($values);
     }
 
@@ -233,6 +239,7 @@ class Configure
         $contents = '<?php' . "\n" . 'return ' . var_export($values, true) . ';';
 
         $filename = static::_getFilePath($key);
+
         return (bool)file_put_contents($filename, $contents);
     }
 
@@ -249,6 +256,7 @@ class Configure
             require ROOT . DS . 'config' . DS . 'version.php';
             static::write($config);
         }
+
         return static::$_values['Bot']['version'];
     }
 
@@ -260,6 +268,7 @@ class Configure
     public static function clear()
     {
         static::$_values = [];
+
         return true;
     }
 }

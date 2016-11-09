@@ -24,11 +24,13 @@ class Inflector
         $type = '_' . $type;
         if ($value !== false) {
             static::$_cache[$type][$key] = $value;
+
             return $value;
         }
         if (!isset(static::$_cache[$type][$key])) {
             return false;
         }
+
         return static::$_cache[$type][$key];
     }
 
@@ -48,6 +50,7 @@ class Inflector
             $result = str_replace(' ', '', static::humanize($string, $delimiter));
             static::_cache(__FUNCTION__, $string, $result);
         }
+
         return $result;
     }
 
@@ -72,6 +75,7 @@ class Inflector
             $result = implode(' ', $result);
             static::_cache($cacheKey, $string, $result);
         }
+
         return $result;
     }
 }

@@ -4,10 +4,10 @@
  */
 require __DIR__ . DIRECTORY_SEPARATOR . 'paths.php';
 
-// Use composer to load the autoloader.
+/**
+ * Use composer to load the autoloader.
+ */
 require ROOT . DS . 'vendor' . DS . 'autoload.php';
-
-require APP . 'basics.php';
 
 use Bot\Configure\Configure;
 

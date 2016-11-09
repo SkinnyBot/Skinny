@@ -54,25 +54,4 @@ class Exception extends \RuntimeException
     {
         return $this->_attributes;
     }
-
-    /**
-     * Get/set the response header to be used
-     *
-     * @param string|array|null $header An array of header strings or a single header string
-     *  - an associative array of "header name" => "header value"
-     *  - an array of string headers is also accepted
-     * @param string $value The header value.
-     *
-     * @return array
-     */
-    public function responseHeader($header = null, $value = null)
-    {
-        if ($header === null) {
-            return $this->_responseHeaders;
-        }
-        if (is_array($header)) {
-            return $this->_responseHeaders = $header;
-        }
-        $this->_responseHeaders = [$header => $value];
-    }
 }

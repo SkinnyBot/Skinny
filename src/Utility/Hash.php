@@ -20,6 +20,7 @@ class Hash
         $noTokens = strpos($path, '[') === false;
         if ($noTokens && strpos($path, '.') === false) {
             $data[$path] = $values;
+
             return $data;
         }
 
@@ -49,6 +50,7 @@ class Hash
                 }
             }
         }
+
         return $data;
     }
 
@@ -121,6 +123,7 @@ class Hash
 
         if ($noExpansion && $noTokens && strpos($path, '.') === false) {
             unset($data[$path]);
+
             return $data;
         }
 
@@ -150,6 +153,7 @@ class Hash
                 unset($data[$k]);
             }
         }
+
         return $data;
     }
 
@@ -184,6 +188,7 @@ class Hash
             $stack = [[$child, &$result]];
             static::_merge($stack, $result);
         }
+
         return $result;
     }
 
@@ -211,6 +216,7 @@ class Hash
         }
         unset($curArg);
         static::_merge($stack, $return);
+
         return $return;
     }
 
@@ -252,6 +258,7 @@ class Hash
         if (is_numeric($token)) {
             return ($key == $token);
         }
+
         return ($key === $token);
     }
 
@@ -312,6 +319,7 @@ class Hash
                 return false;
             }
         }
+
         return true;
     }
 
@@ -340,6 +348,7 @@ class Hash
             if ($op === 'insert') {
                 if ($i === $last) {
                     $_list[$key] = $values;
+
                     return $data;
                 }
                 if (!isset($_list[$key])) {
@@ -352,6 +361,7 @@ class Hash
             } elseif ($op === 'remove') {
                 if ($i === $last) {
                     unset($_list[$key]);
+
                     return $data;
                 }
                 if (!isset($_list[$key])) {

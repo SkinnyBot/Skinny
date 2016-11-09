@@ -79,6 +79,7 @@ class Debugger
         if (!$instance) {
             $instance[0] = new Debugger();
         }
+
         return $instance[0];
     }
 
@@ -224,6 +225,7 @@ class Debugger
                 if (trim($var) === '') {
                     return "''";
                 }
+
                 return "'" . $var . "'";
             case 'array':
                 return static::_array($var, $depth - 1, $indent + 1);
@@ -295,6 +297,7 @@ class Debugger
             $out .= $break . implode($break, $props) . $end;
         }
         $out .= '}';
+
         return $out;
     }
 
@@ -341,6 +344,7 @@ class Debugger
         } else {
             $vars[] = $break . '[maximum depth reached]';
         }
+
         return $out . implode(',', $vars) . $end . ']';
     }
 
@@ -378,6 +382,7 @@ class Debugger
         if (is_resource($var)) {
             return 'resource';
         }
+
         return 'unknown';
     }
 }

@@ -17,7 +17,7 @@ class Server
     public $ModuleManager;
 
     /**
-     * [__construct description]
+     * Initialize the Bot and and the ModuleManager.
      */
     public function __construct()
     {
@@ -36,7 +36,7 @@ class Server
     }
 
     /**
-     * [listen description]
+     * Handle the events.
      *
      * @return void
      */
@@ -96,9 +96,9 @@ class Server
     }
 
     /**
-     * [startup description]
+     * Run the bot.
      *
-     * @return [type]
+     * @return void
      */
     public function startup()
     {
