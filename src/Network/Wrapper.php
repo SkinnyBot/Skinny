@@ -44,6 +44,14 @@ class Wrapper extends Singleton
      */
     public $Members;
 
+    /**
+     * Set the instances to the Wrapper.
+     *
+     * @param \Discord\Parts\Channel\Message $message The messages object.
+     * @param \Bot\Module\ModuleManager $moduleManager The ModuleManager object.
+     *
+     * @return object Return this Wrapper.
+     */
     public function setInstances($message, $moduleManager)
     {
         $this->ModuleManager = $moduleManager;
@@ -53,7 +61,6 @@ class Wrapper extends Singleton
 
         if (is_object($message->channel->guild->members)) {
             $this->Members = $message->channel->guild->members;
-            debug($message->channel->guild->members);
         }
 
         return $this;
