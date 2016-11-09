@@ -22,18 +22,26 @@ return [
 
 /**
  * Configure basic information about the bot.
+ *
+ * - token : The toekn used to connect to the discord server.
+ * - admins : The list of bot's administrators. (IDs only)
+ * - chatChannels : Restrict the bot to only listen to certain text channels. (IDs only)
+ * - voiceChannel : Join a voice channel on startup. (IDs only)
  */
     'Bot' => [
         'token' => '',
-
-        //Admins of the bot. (IDs only)
-        'admins' => []
-
-        //Restrict the bot to only listen to certain text channels. (IDs only)
+        'admins' => [],
         'chatChannels' => [],
-
-        //Join a voice channel on startup. (IDs only)
         'voiceChannel' => ''
+    ],
+
+/**
+ * Configure Module manager.
+ *
+ * - priority - All modules that need to be loaded before others.
+ */
+    'Modules' => [
+        'priority' => []
     ],
 
 /**
@@ -43,14 +51,5 @@ return [
  */
     'Commands' => [
         'prefix' => '!'
-    ],
-
-/**
- * Configure information about Pastebin.
- */
-    'Pastebin' => [
-        'apiDevKey' => 'zz',
-        'apiPastePrivate' => '1',
-        'apiPasteExpireDate' => '1M'
     ]
 ];

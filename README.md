@@ -7,6 +7,10 @@
 
 A simple bot in PHP using [DiscordPHP](https://github.com/teamreflex/DiscordPHP).
 
+# Installation
+ * `composer create-project --prefer-dist xety/discordphp-bot <application_name>`
+ * Rename the file `config/config.default.php` to `config/config.php`
+ * Configure your bot in the file `config/config.php`
 
 # Run
 Command line only : `php run.php`
