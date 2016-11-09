@@ -266,7 +266,7 @@ class ModuleManager implements ArrayAccess, Countable
      *
      * @param string $module The module to check.
      *
-     * @return bool|integer
+     * @return bool|int
      */
     public function isModified($module)
     {

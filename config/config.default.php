@@ -25,18 +25,14 @@ return [
  */
     'Bot' => [
         'token' => '',
-        'username' => '',
-        'password' => '',
 
-        //Admins of the bot.
-        'admins' => [
-            ''
-        ]
+        //Admins of the bot. (IDs only)
+        'admins' => []
 
-        //Restrict the bot to only listen to certain text channels.
+        //Restrict the bot to only listen to certain text channels. (IDs only)
         'chatChannels' => [],
 
-        //Join a voice channel on startup.
+        //Join a voice channel on startup. (IDs only)
         'voiceChannel' => ''
     ],
 
