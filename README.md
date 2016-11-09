@@ -141,6 +141,22 @@ object(Bot\Network\Wrapper) {
 }
 ```
 
+#### The Module System
+As i said before, this bot implement a Module system. The Module Manager work like that in debug mode **only** :
+The Module Manager load the file's contents first, then use `preg_replace()` to replace the original class-name with a random one. After that, its create a copy and include it.
+
+#### The Module Manager
+The Module manager is a module that allow to manage modules with command. That means you can code your own module and load/reload it without restarting the bot. Isn't that cool ?! :laughing:
+This module has the following command and it require to be admin of the bot by default :
+
+|Command|Description|Note|
+|------|-------|-------|
+|`!module load <module>`|Load the specified module.||
+|`!module unload <module>`|Unload the specified module.|Only usable in `debug` mode.|
+|`!module reload <module>`|Reload the specified module.|Only usable in `debug` mode.|
+|`!module time <module>`|Display the time from when the module is loaded.|Display style : `0 days, 1 hours, 38 minutes and 31 seconds`|
+|`!module loaded`|Show the list of the loaded modules.|E.g `Modules loaded : Basic, Module, Developer.`|
+
 # Contribute
 [Follow this guide to contribute](https://github.com/Xety/DiscordPHP-Bot/blob/master/CONTRIBUTING.md)
 

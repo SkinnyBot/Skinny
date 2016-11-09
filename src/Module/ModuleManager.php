@@ -6,6 +6,8 @@ use Bot\Configure\Configure;
 use Bot\Utility\Inflector;
 use Countable;
 use DirectoryIterator;
+use Exception;
+use RuntimeException;
 
 class ModuleManager implements ArrayAccess, Countable
 {
@@ -59,8 +61,7 @@ class ModuleManager implements ArrayAccess, Countable
                 try {
                     $this->load(substr($filename, 0, -4));
                 } catch (Exception $e) {
-                    //Error while loading module.
-                    debug('Error while loading module : ' . $e->getMessage());
+                    throw new RuntimeException(sprintf('Error while loading module : %s', $e->getMessage()));
                 }
             }
         }
@@ -137,8 +138,6 @@ class ModuleManager implements ArrayAccess, Countable
             //Return the message AlreadyLoaded.
             return 'AL';
         } elseif (!file_exists(MODULE_DIR . DS . $module . '.php')) {
-            debug('Class file for ' . $module . ' could not be found.');
-
             //Return NotFound.
             return 'NF';
         }
@@ -180,7 +179,7 @@ class ModuleManager implements ArrayAccess, Countable
 
         //Check if this module implements our default interface.
         if (!$objectModule instanceof ModuleInterface) {
-            throw new \RuntimeException(sprintf('ModuleManager::load() expects "%s" to be an instance of ModuleInterface.', $className));
+            throw new RuntimeException(sprintf('ModuleManager::load() expects "%s" to be an instance of ModuleInterface.', $className));
         }
 
         //Prioritize.
