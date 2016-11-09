@@ -1,0 +1,38 @@
+{
+    "name": "xety/discordphp-bot",
+    "description": "A simple bot in PHP.",
+    "homepage": "https://github.com/Xety/discordphp-bot",
+    "keywords": ["discord", "bot", "php", "discordphp", "botphp"],
+    "type": "project",
+    "license": "MIT",
+    "support": {
+        "source":"https://github.com/Xety/DiscordPHP-Bot",
+        "issues":"https://github.com/Xety/DiscordPHP-Bot/issues"
+    },
+    "authors": [
+        {
+            "name": "Xety",
+            "email": "zoro.fmt@gmail.com",
+            "homepage": "https://github.com/Xety"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "team-reflex/discord-php": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "cakephp/cakephp-codesniffer": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bot\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "tests"
+        }
+    },
+    "minimum-stability": "stable"
+}
