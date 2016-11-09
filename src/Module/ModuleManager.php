@@ -41,8 +41,6 @@ class ModuleManager implements ArrayAccess, Countable
      * Constructor, loads all Modules in the Module directory.
      *
      * @param array $priorities The modules to load in priority.
-     *
-     * @return void
      */
     public function __construct(array $priorities = [])
     {
@@ -268,7 +266,7 @@ class ModuleManager implements ArrayAccess, Countable
      *
      * @param string $module The module to check.
      *
-     * @return bool
+     * @return bool|integer
      */
     public function isModified($module)
     {

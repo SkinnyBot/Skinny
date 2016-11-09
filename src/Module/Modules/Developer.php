@@ -2,12 +2,9 @@
 namespace Bot\Module\Modules;
 
 use Bot\Configure\Configure;
-use Bot\Message\Message;
 use Bot\Module\ModuleInterface;
-use Bot\Network\Http\Client;
 use Bot\Network\Wrapper;
 use Bot\Utility\Command;
-use Bot\Utility\User;
 
 class Developer implements ModuleInterface
 {
@@ -41,7 +38,7 @@ class Developer implements ModuleInterface
      * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
-     * @return bool
+     * @return void
      */
     public function onCommandMessage(Wrapper $wrapper, $message)
     {

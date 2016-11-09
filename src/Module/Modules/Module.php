@@ -6,7 +6,6 @@ use Bot\Message\Message;
 use Bot\Module\ModuleInterface;
 use Bot\Network\Wrapper;
 use Bot\utility\Inflector;
-use Bot\Utility\User;
 use DateTime;
 
 class Module implements ModuleInterface
@@ -41,7 +40,7 @@ class Module implements ModuleInterface
      * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
-     * @return bool
+     * @return void
      */
     public function onCommandMessage(Wrapper $wrapper, $message)
     {
