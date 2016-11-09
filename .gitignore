@@ -1,0 +1,9 @@
+.idea
+.brackets.json
+.settings
+flo.js
+composer.lock
+
+/config/config.php
+/vendor/*
+/tmp/*
