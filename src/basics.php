@@ -9,10 +9,12 @@ if (!function_exists('debug')) {
      * Only runs if debug level is greater than zero.
      *
      * @param mixed $var Variable to show debug information for.
+     * @param bool $discord Return the generated content.
+     * @param string $type The type of content.
      *
      * @return void
      */
-    function debug($var)
+    function debug($var, $discord = false, $type = 'php')
     {
         if (!Configure::read('debug')) {
             return;
@@ -32,7 +34,21 @@ if (!function_exists('debug')) {
 ###########################
 %s
 TEXT;
+
+        $discordTemplate = <<<TEXT
+**########## DEBUG ##########**
+`%s`
+```%s
+%s
+```
+%s
+TEXT;
         $var = Debugger::exportVar($var, 25);
+
+        if ($discord === true) {
+            return sprintf($discordTemplate, $lineInfo, $type, $var, PHP_EOL);
+        }
+
         printf($template, $lineInfo, $var, PHP_EOL);
     }
 }
