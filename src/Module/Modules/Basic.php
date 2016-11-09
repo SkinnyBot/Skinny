@@ -2,7 +2,6 @@
 namespace Bot\Module\Modules;
 
 use Bot\Configure\Configure;
-use Bot\Message\Message;
 use Bot\Module\ModuleInterface;
 use Bot\Network\Wrapper;
 use DateTime;

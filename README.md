@@ -15,5 +15,134 @@ A simple bot in PHP using [DiscordPHP](https://github.com/teamreflex/DiscordPHP)
 # Run
 Command line only : `php run.php`
 
+# Documentation
+#### Creating news Modules
+The bot come with a Module system and a Module manager that allow you to create Modules for you custom commands.
+Here is the default template for a module, named `Basic` for example :
+
+**src/Module/Modules/Basic.php**
+```php
+<?php
+namespace Bot\Module\Modules;
+
+use Bot\Module\ModuleInterface;
+use Bot\Network\Wrapper;
+
+class Basic implements ModuleInterface
+{
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param array $message The message array.
+     *
+     * @return void
+     */
+    public function onChannelMessage(Wrapper $wrapper, $message)
+    {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param array $message The message array.
+     *
+     * @return void
+     */
+    public function onPrivateMessage(Wrapper $wrapper, $message)
+    {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param array $message The message array.
+     *
+     * @return void
+     */
+    public function onCommandMessage(Wrapper $wrapper, $message)
+    {
+    }
+}
+```
+With these 3 functions you can handle every messages on discord :
+* **Command Message** : A normal message in a channel *WITH* a valid command.
+* **Private Message** : A private message.
+* **Channel Message** : A normal message in a channel *WITHOUT* a valid command.
+
+For example if we want to do a `!say [text]` command, we could do that in the `onCommandMessage` function :
+```php
+public function onCommandMessage(Wrapper $wrapper, $message)
+{
+    switch ($message['command']) {
+        case 'say':
+            $wrapper->Channel->sendMessage($message['parts'][1]);
+
+            break;
+    }
+}
+```
+Then we need to add this command in the `config/commands.php` file :
+```php
+'say' => [
+    'params' => 1,
+    'syntax' => 'Say [Message]'
+]
+```
+
+That's all, you did a `!say` command.
+
+#### The variable `$message`
+This variable is created by the class [Bot\Message\Message](https://github.com/Xety/DiscordPHP-Bot/blob/master/src/Message/Message.php) and is an array.
+For example with the phrase `!dev param1 param2 param3 etc`, we will have the following array :
+```php
+[
+    'raw' => '!dev param1 param2 param3 etc',
+    'parts' => [
+            (int) 0 => '!dev',
+            (int) 1 => 'param1 param2 param3 etc'
+    ],
+    'command' => 'dev',
+    'message' => 'param1 param2 param3 etc',
+    'commandCode' => '!',
+    'arguments' => [
+            (int) 0 => 'param1',
+            (int) 1 => 'param2',
+            (int) 2 => 'param3',
+            (int) 3 => 'etc'
+    ]
+]
+```
+
+#### The object `$wrapper`
+The object is an instance of the class [Bot\Network\Wrapper](https://github.com/Xety/DiscordPHP-Bot/blob/master/src/Network/Wrapper.php) and is used as a wrapper to split all the Discord's classes for a better accessibility and clarity when developing modules.
+
+For example, doing a `debug()` on this object would generate the following output :
+```php
+object(Bot\Network\Wrapper) {
+    ModuleManager => object(Bot\Module\ModuleManager) {
+        ...
+    }
+    Message => object(Discord\Parts\Channel\Message) {
+        ...
+    }
+    Channel => object(Discord\Parts\Channel\Channel) {
+        ...
+    }
+    Guild => object(Discord\Parts\Guild\Guild) {
+        ...
+    }
+    Members => object(Discord\Repository\Guild\MemberRepository) {
+        ...
+    }
+}
+```
+
+# Contribute
+[Follow this guide to contribute](https://github.com/Xety/DiscordPHP-Bot/blob/master/CONTRIBUTING.md)
+
 # Ressources
 * [CakePHP](https://github.com/cakephp/cakephp)
