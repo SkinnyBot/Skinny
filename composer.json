@@ -1,7 +1,7 @@
 {
     "name": "xety/skinny",
     "description": "A simple bot in PHP.",
-    "homepage": "https://github.com/Xety/discordphp-bot",
+    "homepage": "https://github.com/Xety/Skinny",
     "keywords": ["discord", "bot", "php", "discordphp", "botphp"],
     "license": "MIT",
     "support": {
@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.6",
         "team-reflex/discord-php": "4.*"
     },
     "require-dev": {
