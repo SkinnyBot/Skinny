@@ -154,7 +154,7 @@ class Configure
             return $value;
         }
         $value = Hash::get(static::$values, $var);
-        static::$_values = Hash::remove(static::$values, $var);
+        static::$values = Hash::remove(static::$values, $var);
 
         return $value;
     }
@@ -190,7 +190,7 @@ class Configure
 
         $values = $return;
         if ($merge) {
-            $values = Hash::merge(static::$_values, $values);
+            $values = Hash::merge(static::$values, $values);
         }
 
         return static::write($values);
@@ -238,7 +238,7 @@ class Configure
         }
         $contents = '<?php' . "\n" . 'return ' . var_export($values, true) . ';';
 
-        $filename = static::_getFilePath($key);
+        $filename = static::getFilePath($key);
 
         return (bool)file_put_contents($filename, $contents);
     }
