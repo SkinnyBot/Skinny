@@ -18,7 +18,7 @@ matrix:
 
 before_script:
   - composer self-update
-  - composer install --prefer-dist --no-interaction --dev
+  - composer install --prefer-dist --no-interaction
 
 script:
   - sh -c "if [ '$PHPCS' = '1' ]; then vendor/bin/phpcs -p --extensions=php --standard=PSR2 ./src; fi"
