@@ -30,12 +30,7 @@ class Server
      */
     public function __construct()
     {
-        $this->Discord = new Discord([
-            'token' => Configure::read('Bot.token'),
-            'logging' => false,
-            'retrieveBans' => false,
-            'pmChannels' => true,
-        ]);
+        $this->Discord = new Discord(Configure::read('Discord'));
 
         //Initialize the ModuleManager.
         $modulesPriorities = [];
