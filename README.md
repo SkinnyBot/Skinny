@@ -9,14 +9,6 @@ A simple bot in PHP using [DiscordPHP](https://github.com/teamreflex/DiscordPHP)
 # Note
 This is the core of the Bot. The skeleton of the application can be found [there](https://github.com/Xety/Skinny-Skeleton).
 
-# Installation
- * `composer create-project --prefer-dist xety/skinny-skeleton <application_name>`
- * Rename the file `config/config.default.php` to `config/config.php`
- * Configure your bot in the file `config/config.php`
-
-# Run
-Command line only : `php run.php`
-
 # Documentation
 #### Creating news Modules
 The bot come with a Module system and a Module manager that allow you to create Modules for your custom commands.
