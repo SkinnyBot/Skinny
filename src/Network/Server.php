@@ -11,8 +11,18 @@ use Skinny\Utility\User;
 
 class Server
 {
+    /**
+     * The Discord instance.
+     *
+     * @var \Discord\Discord
+     */
     public $Discord;
 
+    /**
+     * The Module Manager instance.
+     *
+     * @var \Skinny\Module\ModuleManager
+     */
     public $ModuleManager;
 
     /**

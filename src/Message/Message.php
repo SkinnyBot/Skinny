@@ -10,7 +10,7 @@ class Message extends Singleton
      *
      * @var array
      */
-    protected static $_defaultConfig = [
+    protected static $defaultConfig = [
         'raw' => '',
         'parts' => [],
         'command' => '',
@@ -36,7 +36,7 @@ class Message extends Singleton
     public static function setData($message)
     {
         //Set the default values before processing.
-        static::_setDefaultValues();
+        static::setDefaultValues();
 
         //Check if we have a Message.
         if (!empty($message)) {
@@ -98,8 +98,8 @@ class Message extends Singleton
      *
      * @return void
      */
-    protected static function _setDefaultValues()
+    protected static function setDefaultValues()
     {
-        static::$data = static::$_defaultConfig;
+        static::$data = static::$defaultConfig;
     }
 }

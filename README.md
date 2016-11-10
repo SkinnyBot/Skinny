@@ -155,7 +155,7 @@ This module has the following command and it require to be admin of the bot by d
 |`!module loaded`|Show the list of the loaded modules.|E.g `Modules loaded : Basic, Module, Developer.`|
 
 # Contribute
-[Follow this guide to contribute](https://github.com/Xety/Skinny/blob/master/CONTRIBUTING.md)
+[Follow this guide to contribute](https://github.com/Xety/Skinny/blob/master/.github/CONTRIBUTING.md)
 
 # Ressources
 * [CakePHP](https://github.com/cakephp/cakephp)

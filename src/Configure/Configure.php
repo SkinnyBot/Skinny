@@ -19,7 +19,7 @@ class Configure
      *
      * @var array
      */
-    protected static $_values = [
+    protected static $values = [
         'debug' => 0
     ];
 
@@ -28,7 +28,7 @@ class Configure
      *
      * @return void
      */
-    protected static $_hasIniSet = null;
+    protected static $hasIniSet = null;
 
     /**
      * Used to store a dynamic variable in Configure.
@@ -60,13 +60,13 @@ class Configure
             $config = [$config => $value];
         }
         foreach ($config as $name => $value) {
-            static::$_values = Hash::insert(static::$_values, $name, $value);
+            static::$values = Hash::insert(static::$values, $name, $value);
         }
         if (isset($config['debug'])) {
-            if (static::$_hasIniSet === null) {
-                static::$_hasIniSet = function_exists('ini_set');
+            if (static::$hasIniSet === null) {
+                static::$hasIniSet = function_exists('ini_set');
             }
-            if (static::$_hasIniSet) {
+            if (static::$hasIniSet) {
                 ini_set('display_errors', $config['debug'] ? 1 : 0);
             }
         }
@@ -91,10 +91,10 @@ class Configure
     public static function read($var = null)
     {
         if ($var === null) {
-            return static::$_values;
+            return static::$values;
         }
 
-        return Hash::get(static::$_values, $var);
+        return Hash::get(static::$values, $var);
     }
 
     /**
@@ -110,7 +110,7 @@ class Configure
             return false;
         }
 
-        return Hash::get(static::$_values, $var) !== null;
+        return Hash::get(static::$values, $var) !== null;
     }
 
     /**
@@ -128,7 +128,7 @@ class Configure
      */
     public static function delete($var)
     {
-        static::$_values = Hash::remove(static::$_values, $var);
+        static::$values = Hash::remove(static::$values, $var);
     }
 
     /**
@@ -144,17 +144,17 @@ class Configure
     public static function consume($var)
     {
         $simple = strpos($var, '.') === false;
-        if ($simple && !isset(static::$_values[$var])) {
+        if ($simple && !isset(static::$values[$var])) {
             return null;
         }
         if ($simple) {
-            $value = static::$_values[$var];
-            unset(static::$_values[$var]);
+            $value = static::$values[$var];
+            unset(static::$values[$var]);
 
             return $value;
         }
-        $value = Hash::get(static::$_values, $var);
-        static::$_values = Hash::remove(static::$_values, $var);
+        $value = Hash::get(static::$values, $var);
+        static::$_values = Hash::remove(static::$values, $var);
 
         return $value;
     }
@@ -181,7 +181,7 @@ class Configure
      */
     public static function load($key, $merge = true)
     {
-        $file = static::_getFilePath($key);
+        $file = static::getFilePath($key);
 
         $return = include $file;
         if (!is_array($return)) {
@@ -203,7 +203,7 @@ class Configure
      *
      * @return string
      */
-    protected static function _getFilePath($key)
+    protected static function getFilePath($key)
     {
         return CONFIG . $key . static::EXT;
     }
@@ -231,7 +231,7 @@ class Configure
      */
     public static function dump($key, $keys = [])
     {
-        $values = static::$_values;
+        $values = static::$values;
 
         if (!empty($keys) && is_array($keys)) {
             $values = array_intersect_key($values, array_flip($keys));
@@ -252,12 +252,12 @@ class Configure
      */
     public static function version()
     {
-        if (!isset(static::$_values['Bot']['version'])) {
+        if (!isset(static::$values['Bot']['version'])) {
             require ROOT . DS . 'config' . DS . 'version.php';
             static::write($config);
         }
 
-        return static::$_values['Bot']['version'];
+        return static::$values['Bot']['version'];
     }
 
     /**
@@ -267,7 +267,7 @@ class Configure
      */
     public static function clear()
     {
-        static::$_values = [];
+        static::$values = [];
 
         return true;
     }

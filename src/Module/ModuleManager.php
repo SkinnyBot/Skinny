@@ -23,21 +23,21 @@ class ModuleManager implements ArrayAccess, Countable
      *
      * @var array
      */
-    protected $_priorityList = [];
+    protected $priorityList = [];
 
     /**
      * Loaded modules.
      *
      * @var array
      */
-    protected $_loadedModules = [];
+    protected $loadedModules = [];
 
     /**
      * An argument that should be passed every call.
      *
      * @var array
      */
-    protected $_prefixArgument = null;
+    protected $prefixArgument = null;
 
     /**
      * Constructor, loads all Modules in the Module directory.
@@ -46,7 +46,7 @@ class ModuleManager implements ArrayAccess, Countable
      */
     public function __construct(array $priorities = [])
     {
-        $this->_priorityList = $priorities;
+        $this->priorityList = $priorities;
         $files = new DirectoryIterator(MODULE_DIR);
 
         foreach ($files as $file) {
@@ -72,7 +72,7 @@ class ModuleManager implements ArrayAccess, Countable
      */
     public function __destruct()
     {
-        $this->_loadedModules = [];
+        $this->loadedModules = [];
     }
 
     /**
@@ -84,7 +84,7 @@ class ModuleManager implements ArrayAccess, Countable
      */
     public function addPrefixArgument($argument)
     {
-        $this->_prefixArgument = $argument;
+        $this->prefixArgument = $argument;
 
         return true;
     }
@@ -102,11 +102,11 @@ class ModuleManager implements ArrayAccess, Countable
     public function __call($method, array $arguments)
     {
         //Add out predefined prefix argument to the total list.
-        if (!is_null($this->_prefixArgument)) {
-            array_unshift($arguments, $this->_prefixArgument);
+        if (!is_null($this->prefixArgument)) {
+            array_unshift($arguments, $this->prefixArgument);
         }
 
-        foreach ($this->_loadedModules as $module) {
+        foreach ($this->loadedModules as $module) {
             //Check if the module has the method.
             if (!method_exists($module['object'], $method)) {
                 continue;
@@ -134,7 +134,7 @@ class ModuleManager implements ArrayAccess, Countable
     {
         $module = Inflector::camelize($module);
 
-        if (isset($this->_loadedModules[$module])) {
+        if (isset($this->loadedModules[$module])) {
             //Return the message AlreadyLoaded.
             return 'AL';
         } elseif (!file_exists(MODULE_DIR . DS . $module . '.php')) {
@@ -149,8 +149,8 @@ class ModuleManager implements ArrayAccess, Countable
         if (Configure::read('debug') === false) {
             require_once $path;
         } else {
-            //Here, we load the file's contents first, then use preg_replace() to replace the original class-name with a random one.
-            //After that, we create a copy and include it.
+            //Here, we load the file's contents first, then use preg_replace() to replace
+            //the original class-name with a random one. After that, we create a copy and include it.
             $newClass = $module . '_' . md5(mt_rand() . time());
             $contents = preg_replace(
                 "/(class[\s]+?)" . $module . "([\s]+?implements[\s]+?ModuleInterface[\s]+?{)/",
@@ -179,18 +179,20 @@ class ModuleManager implements ArrayAccess, Countable
 
         //Check if this module implements our default interface.
         if (!$objectModule instanceof ModuleInterface) {
-            throw new RuntimeException(sprintf('ModuleManager::load() expects "%s" to be an instance of ModuleInterface.', $className));
+            throw new RuntimeException(
+                sprintf('ModuleManager::load() expects "%s" to be an instance of ModuleInterface.', $className)
+            );
         }
 
         //Prioritize.
-        if (in_array($module, $this->_priorityList)) {
+        if (in_array($module, $this->priorityList)) {
             //So, here we reverse our list of loaded modules, so that prioritized modules will be the last ones,
             //then, we add the current prioritized modules to the array and reverse it again.
-            $temp = array_reverse($this->_loadedModules, true);
+            $temp = array_reverse($this->loadedModules, true);
             $temp[$module] = $new;
-            $this->_loadedModules = array_reverse($temp, true);
+            $this->loadedModules = array_reverse($temp, true);
         } else {
-            $this->_loadedModules[$module] = $new;
+            $this->loadedModules[$module] = $new;
         }
 
         //Return the message Loaded.
@@ -208,15 +210,15 @@ class ModuleManager implements ArrayAccess, Countable
     {
         $module = Inflector::camelize($module);
 
-        if (!isset($this->_loadedModules[$module])) {
+        if (!isset($this->loadedModules[$module])) {
             //Return the message AlreadyUnloaded.
             return 'AU';
         }
 
         //Remove this module, also calling the __destruct method of it.
-        $object = $this->_loadedModules[$module]['object'];
+        $object = $this->loadedModules[$module]['object'];
         unset($object);
-        unset($this->_loadedModules[$module]);
+        unset($this->loadedModules[$module]);
 
         //Return the message Unloaded.
         return 'U';
@@ -253,11 +255,11 @@ class ModuleManager implements ArrayAccess, Countable
     {
         $module = Inflector::camelize($module);
 
-        if (!isset($this->_loadedModules[$module])) {
+        if (!isset($this->loadedModules[$module])) {
             return false;
         }
 
-        return $this->_loadedModules[$module]['loaded'];
+        return $this->loadedModules[$module]['loaded'];
     }
 
     /**
@@ -271,11 +273,11 @@ class ModuleManager implements ArrayAccess, Countable
     {
         $module = Inflector::camelize($module);
 
-        if (!isset($this->_loadedModules[$module])) {
+        if (!isset($this->loadedModules[$module])) {
             return -1;
         }
 
-        return $this->_loadedModules[$module]['modified'];
+        return $this->loadedModules[$module]['modified'];
     }
 
     /**
@@ -285,7 +287,7 @@ class ModuleManager implements ArrayAccess, Countable
      */
     public function getLoadedModules()
     {
-        return array_keys($this->_loadedModules);
+        return array_keys($this->loadedModules);
     }
 
     /**
@@ -295,7 +297,7 @@ class ModuleManager implements ArrayAccess, Countable
      */
     public function count()
     {
-        return count($this->_loadedModules);
+        return count($this->loadedModules);
     }
 
     /**
@@ -309,11 +311,11 @@ class ModuleManager implements ArrayAccess, Countable
     {
         $module = Inflector::camelize($module);
 
-        if (!isset($this->_loadedModules[$module])) {
+        if (!isset($this->loadedModules[$module])) {
             return false;
         }
 
-        return $this->_loadedModules[$module]['object'];
+        return $this->loadedModules[$module]['object'];
     }
 
     /**
@@ -327,7 +329,7 @@ class ModuleManager implements ArrayAccess, Countable
     {
         $module = Inflector::camelize($module);
 
-        return isset($this->_loadedModules[$module]);
+        return isset($this->loadedModules[$module]);
     }
 
     /**
@@ -343,7 +345,9 @@ class ModuleManager implements ArrayAccess, Countable
     public function offsetSet($offset, $module)
     {
         if (!$module instanceof ModuleInterface) {
-            throw new \RuntimeException(sprintf('ModuleManager::offsetSet() expects "%s" to be an instance of ModuleInterface.', $module));
+            throw new RuntimeException(
+                sprintf('ModuleManager::offsetSet() expects "%s" to be an instance of ModuleInterface.', $module)
+            );
         }
 
         $newModule = [
@@ -353,12 +357,12 @@ class ModuleManager implements ArrayAccess, Countable
             'modified' => false
         ];
 
-        if (in_array($offset, $this->_priorityList)) {
-            $temp = array_reverse($this->_loadedModules, true);
+        if (in_array($offset, $this->priorityList)) {
+            $temp = array_reverse($this->loadedModules, true);
             $temp[$offset] = $newModule;
-            $this->_loadedModules = array_reverse($temp, true);
+            $this->loadedModules = array_reverse($temp, true);
         } else {
-            $this->_loadedModules[$offset] = $newModule;
+            $this->loadedModules[$offset] = $newModule;
         }
 
         return true;
@@ -373,11 +377,11 @@ class ModuleManager implements ArrayAccess, Countable
      */
     public function offsetUnset($module)
     {
-        if (!isset($this->_loadedModules[$module])) {
+        if (!isset($this->loadedModules[$module])) {
             return true;
         }
 
-        unset($this->_loadedModules[$module]);
+        unset($this->loadedModules[$module]);
 
         return true;
     }

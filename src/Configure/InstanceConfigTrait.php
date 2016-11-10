@@ -16,14 +16,14 @@ trait InstanceConfigTrait
      *
      * @var array
      */
-    protected $_config = [];
+    protected $config = [];
 
     /**
      * Whether the config property has already been configured with defaults.
      *
      * @var bool
      */
-    protected $_configInitialized = false;
+    protected $configInitialized = false;
 
     /**
      * ### Usage
@@ -62,18 +62,18 @@ trait InstanceConfigTrait
      */
     public function config($key = null, $value = null, $merge = true)
     {
-        if (!$this->_configInitialized) {
-            $this->_config = $this->_defaultConfig;
-            $this->_configInitialized = true;
+        if (!$this->configInitialized) {
+            $this->config = $this->defaultConfig;
+            $this->configInitialized = true;
         }
 
         if (is_array($key) || func_num_args() >= 2) {
-            $this->_configWrite($key, $value, $merge);
+            $this->configWrite($key, $value, $merge);
 
             return $this;
         }
 
-        return $this->_configRead($key);
+        return $this->configRead($key);
     }
 
     /**
@@ -98,12 +98,12 @@ trait InstanceConfigTrait
      */
     public function configShallow($key, $value = null)
     {
-        if (!$this->_configInitialized) {
-            $this->_config = $this->_defaultConfig;
-            $this->_configInitialized = true;
+        if (!$this->configInitialized) {
+            $this->config = $this->defaultConfig;
+            $this->configInitialized = true;
         }
 
-        $this->_configWrite($key, $value, 'shallow');
+        $this->configWrite($key, $value, 'shallow');
 
         return $this;
     }
@@ -114,17 +114,17 @@ trait InstanceConfigTrait
      * @param string|null $key Key to read.
      * @return mixed
      */
-    protected function _configRead($key)
+    protected function configRead($key)
     {
         if ($key === null) {
-            return $this->_config;
+            return $this->config;
         }
 
         if (strpos($key, '.') === false) {
-            return isset($this->_config[$key]) ? $this->_config[$key] : null;
+            return isset($this->config[$key]) ? $this->config[$key] : null;
         }
 
-        $return = $this->_config;
+        $return = $this->config;
 
         foreach (explode('.', $key) as $k) {
             if (!is_array($return) || !isset($return[$k])) {
@@ -149,10 +149,10 @@ trait InstanceConfigTrait
      *
      * @throws \Skinny\Configure\Configure\Exception\Exception if attempting to clobber existing config
      */
-    protected function _configWrite($key, $value, $merge = false)
+    protected function configWrite($key, $value, $merge = false)
     {
         if (is_string($key) && $value === null) {
-            $this->_configDelete($key);
+            $this->configDelete($key);
 
             return;
         }
@@ -164,9 +164,9 @@ trait InstanceConfigTrait
                 $update = [$key => $value];
             }
             if ($merge === 'shallow') {
-                $this->_config = array_merge($this->_config, Hash::expand($update));
+                $this->config = array_merge($this->config, Hash::expand($update));
             } else {
-                $this->_config = Hash::merge($this->_config, Hash::expand($update));
+                $this->config = Hash::merge($this->config, Hash::expand($update));
             }
 
             return;
@@ -174,19 +174,19 @@ trait InstanceConfigTrait
 
         if (is_array($key)) {
             foreach ($key as $k => $val) {
-                $this->_configWrite($k, $val);
+                $this->configWrite($k, $val);
             }
 
             return;
         }
 
         if (strpos($key, '.') === false) {
-            $this->_config[$key] = $value;
+            $this->config[$key] = $value;
 
             return;
         }
 
-        $update =& $this->_config;
+        $update =& $this->config;
         $stack = explode('.', $key);
 
         foreach ($stack as $k) {
@@ -212,15 +212,15 @@ trait InstanceConfigTrait
      *
      * @throws \Skinny\Configure\Configure\Exception\Exception if attempting to clobber existing config
      */
-    protected function _configDelete($key)
+    protected function configDelete($key)
     {
         if (strpos($key, '.') === false) {
-            unset($this->_config[$key]);
+            unset($this->config[$key]);
 
             return;
         }
 
-        $update =& $this->_config;
+        $update =& $this->config;
         $stack = explode('.', $key);
         $length = count($stack);
 
