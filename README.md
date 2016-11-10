@@ -1,9 +1,8 @@
 # DiscordPHP-Bot
 
-[![Build Status](https://img.shields.io/travis/Xety/DiscordPHP-Bot.svg?style=flat-square)](https://travis-ci.org/Xety/DiscordPHP-Bot)
-[![Scrutinizer](https://img.shields.io/scrutinizer/g/Xety/DiscordPHP-Bot.svg?style=flat-square)](https://scrutinizer-ci.com/g/Xety/DiscordPHP-Bot)
-[![Latest Stable Version](https://img.shields.io/packagist/v/Xety/DiscordPHP-Bot.svg?style=flat-square)](https://packagist.org/packages/xety/discordphp-bot)
-[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/xety/discordphp-bot)
+|Travis|Scrutinizer|Stable Version|Downloads|License|
+|:------:|:-------:|:-------:|:------:|:------:|
+|[![Build Status](https://img.shields.io/travis/Xety/DiscordPHP-Bot.svg?style=flat-square)](https://travis-ci.org/Xety/DiscordPHP-Bot)|[![Scrutinizer](https://img.shields.io/scrutinizer/g/Xety/DiscordPHP-Bot.svg?style=flat-square)](https://scrutinizer-ci.com/g/Xety/DiscordPHP-Bot)|[![Latest Stable Version](https://img.shields.io/packagist/v/Xety/DiscordPHP-Bot.svg?style=flat-square)](https://packagist.org/packages/xety/discordphp-bot)|[![Total Downloads](https://img.shields.io/packagist/dt/xety/discordphp-bot.svg?style=flat-square)](https://packagist.org/packages/xety/discordphp-bot)|[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/xety/discordphp-bot)
 
 A simple bot in PHP using [DiscordPHP](https://github.com/teamreflex/DiscordPHP).
 
@@ -17,7 +16,7 @@ Command line only : `php run.php`
 
 # Documentation
 #### Creating news Modules
-The bot come with a Module system and a Module manager that allow you to create Modules for you custom commands.
+The bot come with a Module system and a Module manager that allow you to create Modules for your custom commands.
 Here is the default template for a module, named `Basic` for example :
 
 **src/Module/Modules/Basic.php**

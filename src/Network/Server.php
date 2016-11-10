@@ -8,7 +8,6 @@ use Bot\Network\Wrapper;
 use Bot\Utility\Command;
 use Bot\Utility\User;
 use Discord\Discord;
-use Discord\Parts\Channel\Channel;
 
 class Server
 {
@@ -23,7 +22,9 @@ class Server
     {
         $this->Discord = new Discord([
             'token' => Configure::read('Bot.token'),
-            'pmChannels' => true
+            'logging' => false,
+            'retrieveBans' => false,
+            'pmChannels' => true,
         ]);
 
         //Initialize the ModuleManager.
@@ -43,7 +44,6 @@ class Server
     public function listen()
     {
         $this->Discord->on('ready', function ($discord) {
-            echo "Bot is ready.", PHP_EOL;
 
             // Listen for events here
             $discord->on('message', function ($message) {
@@ -89,8 +89,6 @@ class Server
                 } else {
                     $this->ModuleManager->onChannelMessage($wrapper, $content);
                 }
-
-                echo "Recieved a message from {$message->author->username}: {$message->content}", PHP_EOL;
             });
         });
     }
