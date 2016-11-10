@@ -1,7 +1,7 @@
 <?php
-namespace Bot\Utility;
+namespace Skinny\Utility;
 
-use Bot\Utility\Text;
+use Skinny\Utility\Text;
 
 class Hash
 {

@@ -1,18 +1,18 @@
 <?php
-namespace Bot\Module\Modules;
+namespace Skinny\Module\Modules;
 
-use Bot\Configure\Configure;
-use Bot\Module\ModuleInterface;
-use Bot\Network\Wrapper;
-use Bot\utility\Inflector;
 use DateTime;
+use Skinny\Configure\Configure;
+use Skinny\Module\ModuleInterface;
+use Skinny\Network\Wrapper;
+use Skinny\utility\Inflector;
 
 class Module implements ModuleInterface
 {
     /**
      * {@inheritDoc}
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void
@@ -24,7 +24,7 @@ class Module implements ModuleInterface
     /**
      * {@inheritDoc}
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void
@@ -36,7 +36,7 @@ class Module implements ModuleInterface
     /**
      * {@inheritDoc}
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void
@@ -155,7 +155,7 @@ class Module implements ModuleInterface
     /**
      * Function to reload a Module and send the response.
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param string $module The module to reload.
      *
      * @return void

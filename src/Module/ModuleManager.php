@@ -1,13 +1,13 @@
 <?php
-namespace Bot\Module;
+namespace Skinny\Module;
 
 use ArrayAccess;
-use Bot\Configure\Configure;
-use Bot\Utility\Inflector;
 use Countable;
 use DirectoryIterator;
 use Exception;
 use RuntimeException;
+use Skinny\Configure\Configure;
+use Skinny\Utility\Inflector;
 
 class ModuleManager implements ArrayAccess, Countable
 {

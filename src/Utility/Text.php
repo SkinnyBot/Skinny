@@ -1,5 +1,5 @@
 <?php
-namespace Bot\Utility;
+namespace Skinny\Utility;
 
 use InvalidArgumentException;
 

@@ -1,17 +1,17 @@
 <?php
-namespace Bot\Module\Modules;
+namespace Skinny\Module\Modules;
 
-use Bot\Configure\Configure;
-use Bot\Module\ModuleInterface;
-use Bot\Network\Wrapper;
-use Bot\Utility\Command;
+use Skinny\Configure\Configure;
+use Skinny\Module\ModuleInterface;
+use Skinny\Network\Wrapper;
+use Skinny\Utility\Command;
 
 class Developer implements ModuleInterface
 {
     /**
      * {@inheritDoc}
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void
@@ -23,7 +23,7 @@ class Developer implements ModuleInterface
     /**
      * {@inheritDoc}
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void
@@ -35,7 +35,7 @@ class Developer implements ModuleInterface
     /**
      * {@inheritDoc}
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void

@@ -1,8 +1,8 @@
 <?php
-namespace Bot\Configure;
+namespace Skinny\Configure;
 
-use Bot\Configure\Configure\Exception\Exception;
-use Bot\Utility\Hash;
+use Skinny\Configure\Configure\Exception\Exception;
+use Skinny\Utility\Hash;
 
 /**
  * A trait for reading and writing instance config.
@@ -58,7 +58,7 @@ trait InstanceConfigTrait
      *
      * @return mixed Config value being read, or the object itself on write operations.
      *
-     * @throws \Bot\Configure\Configure\Exception\Exception When trying to set a key that is invalid.
+     * @throws \Skinny\Configure\Configure\Exception\Exception When trying to set a key that is invalid.
      */
     public function config($key = null, $value = null, $merge = true)
     {
@@ -147,7 +147,7 @@ trait InstanceConfigTrait
      *   false to overwrite, defaults to false.
      * @return void
      *
-     * @throws \Bot\Configure\Configure\Exception\Exception if attempting to clobber existing config
+     * @throws \Skinny\Configure\Configure\Exception\Exception if attempting to clobber existing config
      */
     protected function _configWrite($key, $value, $merge = false)
     {
@@ -210,7 +210,7 @@ trait InstanceConfigTrait
      * @param string $key Key to delete.
      * @return void
      *
-     * @throws \Bot\Configure\Configure\Exception\Exception if attempting to clobber existing config
+     * @throws \Skinny\Configure\Configure\Exception\Exception if attempting to clobber existing config
      */
     protected function _configDelete($key)
     {

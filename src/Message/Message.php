@@ -1,7 +1,7 @@
 <?php
-namespace Bot\Message;
+namespace Skinny\Message;
 
-use Bot\Singleton\Singleton;
+use Skinny\Singleton\Singleton;
 
 class Message extends Singleton
 {

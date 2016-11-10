@@ -1,5 +1,5 @@
 <?php
-namespace Bot\Configure\Configure\Exception;
+namespace Skinny\Configure\Configure\Exception;
 
 class Exception extends \RuntimeException
 {

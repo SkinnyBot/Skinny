@@ -1,14 +1,14 @@
 <?php
-namespace Bot\Module;
+namespace Skinny\Module;
 
-use Bot\Network\Wrapper;
+use Skinny\Network\Wrapper;
 
 interface ModuleInterface
 {
     /**
      * Called when a message is posted in a channel.
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void
@@ -18,7 +18,7 @@ interface ModuleInterface
     /**
      * Called when a command is posted in a channel.
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void
@@ -28,7 +28,7 @@ interface ModuleInterface
     /**
      * Called when someone has send a private message to the bot.
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void

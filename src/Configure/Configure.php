@@ -1,9 +1,9 @@
 <?php
 
-namespace Bot\Configure;
+namespace Skinny\Configure;
 
-use Bot\Configure\Exception\Exception;
-use Bot\Utility\Hash;
+use Skinny\Configure\Exception\Exception;
+use Skinny\Utility\Hash;
 
 class Configure
 {

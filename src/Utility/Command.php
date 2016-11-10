@@ -1,7 +1,7 @@
 <?php
-namespace Bot\Utility;
+namespace Skinny\Utility;
 
-use Bot\Configure\Configure;
+use Skinny\Configure\Configure;
 
 class Command
 {

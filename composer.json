@@ -1,13 +1,12 @@
 {
-    "name": "xety/discordphp-bot",
+    "name": "xety/skinny",
     "description": "A simple bot in PHP.",
     "homepage": "https://github.com/Xety/discordphp-bot",
     "keywords": ["discord", "bot", "php", "discordphp", "botphp"],
-    "type": "project",
     "license": "MIT",
     "support": {
-        "source":"https://github.com/Xety/DiscordPHP-Bot",
-        "issues":"https://github.com/Xety/DiscordPHP-Bot/issues"
+        "source":"https://github.com/Xety/Skinny",
+        "issues":"https://github.com/Xety/Skinny/issues"
     },
     "authors": [
         {
@@ -18,7 +17,7 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "team-reflex/discord-php": "*"
+        "team-reflex/discord-php": "4.*"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
@@ -26,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Bot\\": "src"
+            "Skinny\\": "src"
         },
         "files": [
             "src/basics.php"

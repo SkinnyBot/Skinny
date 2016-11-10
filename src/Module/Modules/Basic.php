@@ -1,10 +1,10 @@
 <?php
-namespace Bot\Module\Modules;
+namespace Skinny\Module\Modules;
 
-use Bot\Configure\Configure;
-use Bot\Module\ModuleInterface;
-use Bot\Network\Wrapper;
 use DateTime;
+use Skinny\Configure\Configure;
+use Skinny\Module\ModuleInterface;
+use Skinny\Network\Wrapper;
 
 class Basic implements ModuleInterface
 {
@@ -12,7 +12,7 @@ class Basic implements ModuleInterface
     /**
      * {@inheritDoc}
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void
@@ -24,7 +24,7 @@ class Basic implements ModuleInterface
     /**
      * {@inheritDoc}
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void
@@ -36,7 +36,7 @@ class Basic implements ModuleInterface
     /**
      * {@inheritDoc}
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void
@@ -51,7 +51,7 @@ class Basic implements ModuleInterface
                 break;
 
             case 'info':
-                $wrapper->Message->reply('I\'m open-source! You can find me on GitHub : https://github.com/Xety/DiscordPHP-Bot .');
+                $wrapper->Message->reply('I\'m open-source! You can find me on GitHub : https://github.com/Xety/Skinny .');
 
                 break;
 

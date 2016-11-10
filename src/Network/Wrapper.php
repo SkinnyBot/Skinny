@@ -1,7 +1,7 @@
 <?php
-namespace Bot\Network;
+namespace Skinny\Network;
 
-use Bot\Singleton\Singleton;
+use Skinny\Singleton\Singleton;
 
 /**
  * This class is a wrapper to separate all the Discord classes into variables
@@ -12,7 +12,7 @@ class Wrapper extends Singleton
     /**
      * The ModuleManager instance.
      *
-     * @var \Bot\Module\ModuleManager
+     * @var \Skinny\Module\ModuleManager
      */
     public $ModuleManager;
 
@@ -48,7 +48,7 @@ class Wrapper extends Singleton
      * Set the instances to the Wrapper.
      *
      * @param \Discord\Parts\Channel\Message $message The messages object.
-     * @param \Bot\Module\ModuleManager $moduleManager The ModuleManager object.
+     * @param \Skinny\Module\ModuleManager $moduleManager The ModuleManager object.
      *
      * @return object Return this Wrapper.
      */

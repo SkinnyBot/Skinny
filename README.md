@@ -1,13 +1,13 @@
-# DiscordPHP-Bot
+# Skinny Bot
 
 |Travis|Scrutinizer|Stable Version|Downloads|License|
 |:------:|:-------:|:-------:|:------:|:------:|
-|[![Build Status](https://img.shields.io/travis/Xety/DiscordPHP-Bot.svg?style=flat-square)](https://travis-ci.org/Xety/DiscordPHP-Bot)|[![Scrutinizer](https://img.shields.io/scrutinizer/g/Xety/DiscordPHP-Bot.svg?style=flat-square)](https://scrutinizer-ci.com/g/Xety/DiscordPHP-Bot)|[![Latest Stable Version](https://img.shields.io/packagist/v/Xety/DiscordPHP-Bot.svg?style=flat-square)](https://packagist.org/packages/xety/discordphp-bot)|[![Total Downloads](https://img.shields.io/packagist/dt/xety/discordphp-bot.svg?style=flat-square)](https://packagist.org/packages/xety/discordphp-bot)|[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/xety/discordphp-bot)
+|[![Build Status](https://img.shields.io/travis/Xety/Skinny.svg?style=flat-square)](https://travis-ci.org/Xety/Skinny)|[![Scrutinizer](https://img.shields.io/scrutinizer/g/Xety/Skinny.svg?style=flat-square)](https://scrutinizer-ci.com/g/Xety/Skinny)|[![Latest Stable Version](https://img.shields.io/packagist/v/Xety/Skinny.svg?style=flat-square)](https://packagist.org/packages/xety/skinny)|[![Total Downloads](https://img.shields.io/packagist/dt/xety/skinny.svg?style=flat-square)](https://packagist.org/packages/xety/skinny)|[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/xety/skinny)
 
 A simple bot in PHP using [DiscordPHP](https://github.com/teamreflex/DiscordPHP).
 
 # Installation
- * `composer create-project --prefer-dist xety/discordphp-bot <application_name>`
+ * `composer create-project --prefer-dist xety/skinny-app <application_name>`
  * Rename the file `config/config.default.php` to `config/config.php`
  * Configure your bot in the file `config/config.php`
 
@@ -22,10 +22,10 @@ Here is the default template for a module, named `Basic` for example :
 **src/Module/Modules/Basic.php**
 ```php
 <?php
-namespace Bot\Module\Modules;
+namespace Skinny\Module\Modules;
 
-use Bot\Module\ModuleInterface;
-use Bot\Network\Wrapper;
+use Skinny\Module\ModuleInterface;
+use Skinny\Network\Wrapper;
 
 class Basic implements ModuleInterface
 {
@@ -33,7 +33,7 @@ class Basic implements ModuleInterface
     /**
      * {@inheritDoc}
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void
@@ -45,7 +45,7 @@ class Basic implements ModuleInterface
     /**
      * {@inheritDoc}
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void
@@ -57,7 +57,7 @@ class Basic implements ModuleInterface
     /**
      * {@inheritDoc}
      *
-     * @param \Bot\Network\Wrapper $wrapper The Wrapper instance.
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
      * @param array $message The message array.
      *
      * @return void
@@ -95,7 +95,7 @@ Then we need to add this command in the `config/commands.php` file :
 That's all, you did a `!say` command.
 
 #### The variable `$message`
-This variable is created by the class [Bot\Message\Message](https://github.com/Xety/DiscordPHP-Bot/blob/master/src/Message/Message.php) and is an array.
+This variable is created by the class [Skinny\Message\Message](https://github.com/Xety/Skinny/blob/master/src/Message/Message.php) and is an array.
 For example with the phrase `!dev param1 param2 param3 etc`, we will have the following array :
 ```php
 [
@@ -117,12 +117,12 @@ For example with the phrase `!dev param1 param2 param3 etc`, we will have the fo
 ```
 
 #### The object `$wrapper`
-The object is an instance of the class [Bot\Network\Wrapper](https://github.com/Xety/DiscordPHP-Bot/blob/master/src/Network/Wrapper.php) and is used as a wrapper to split all the Discord's classes for a better accessibility and clarity when developing modules.
+The object is an instance of the class [Skinny\Network\Wrapper](https://github.com/Xety/Skinny/blob/master/src/Network/Wrapper.php) and is used as a wrapper to split all the Discord's classes for a better accessibility and clarity when developing modules.
 
 For example, doing a `debug()` on this object would generate the following output :
 ```php
-object(Bot\Network\Wrapper) {
-    ModuleManager => object(Bot\Module\ModuleManager) {
+object(Skinny\Network\Wrapper) {
+    ModuleManager => object(Skinny\Module\ModuleManager) {
         ...
     }
     Message => object(Discord\Parts\Channel\Message) {
@@ -157,7 +157,7 @@ This module has the following command and it require to be admin of the bot by d
 |`!module loaded`|Show the list of the loaded modules.|E.g `Modules loaded : Basic, Module, Developer.`|
 
 # Contribute
-[Follow this guide to contribute](https://github.com/Xety/DiscordPHP-Bot/blob/master/CONTRIBUTING.md)
+[Follow this guide to contribute](https://github.com/Xety/Skinny/blob/master/CONTRIBUTING.md)
 
 # Ressources
 * [CakePHP](https://github.com/cakephp/cakephp)

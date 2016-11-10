@@ -1,6 +1,6 @@
 <?php
-use Bot\Configure\Configure;
-use Bot\Error\Debugger;
+use Skinny\Configure\Configure;
+use Skinny\Error\Debugger;
 
 if (!function_exists('debug')) {
     /**

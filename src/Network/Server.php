@@ -1,13 +1,13 @@
 <?php
-namespace Bot\Network;
+namespace Skinny\Network;
 
-use Bot\Configure\Configure;
-use Bot\Message\Message;
-use Bot\Module\ModuleManager;
-use Bot\Network\Wrapper;
-use Bot\Utility\Command;
-use Bot\Utility\User;
 use Discord\Discord;
+use Skinny\Configure\Configure;
+use Skinny\Message\Message;
+use Skinny\Module\ModuleManager;
+use Skinny\Network\Wrapper;
+use Skinny\Utility\Command;
+use Skinny\Utility\User;
 
 class Server
 {

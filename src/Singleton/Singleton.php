@@ -1,5 +1,7 @@
 <?php
-namespace Bot\Singleton;
+namespace Skinny\Singleton;
+
+use Exception;
 
 class Singleton
 {

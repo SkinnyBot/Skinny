@@ -1,7 +1,7 @@
 <?php
-namespace Bot\Error;
+namespace Skinny\Error;
 
-use Bot\Utility\Hash;
+use Skinny\Utility\Hash;
 
 class Debugger
 {
