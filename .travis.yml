@@ -5,11 +5,16 @@ php:
   - 7.0
   - 7.1
 
+env:
+  global:
+    - DEFAULT=1
+
 matrix:
   fast_finish: true
 
   include:
-    - env: PHPCS=1 DEFAULT=0
+    - php: 7.0
+      env: PHPCS=1 DEFAULT=0
 
 before_script:
   - composer self-update
