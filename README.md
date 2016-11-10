@@ -6,8 +6,11 @@
 
 A simple bot in PHP using [DiscordPHP](https://github.com/teamreflex/DiscordPHP).
 
+# Note
+This is the core of the Bot. The skeleton of the application can be found [there](https://github.com/Xety/Skinny-Skeleton).
+
 # Installation
- * `composer create-project --prefer-dist xety/skinny-app <application_name>`
+ * `composer create-project --prefer-dist xety/skinny-skeleton <application_name>`
  * Rename the file `config/config.default.php` to `config/config.php`
  * Configure your bot in the file `config/config.php`
 
@@ -22,10 +25,10 @@ Here is the default template for a module, named `Basic` for example :
 **src/Module/Modules/Basic.php**
 ```php
 <?php
-namespace Skinny\Module\Modules;
+namespace Bot\Module\Modules;
 
-use Skinny\Module\ModuleInterface;
-use Skinny\Network\Wrapper;
+use Bot\Module\ModuleInterface;
+use Bot\Network\Wrapper;
 
 class Basic implements ModuleInterface
 {
