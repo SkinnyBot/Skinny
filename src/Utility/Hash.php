@@ -93,7 +93,8 @@ class Hash
             case 2:
                 return isset($data[$parts[0]][$parts[1]]) ? $data[$parts[0]][$parts[1]] : $default;
             case 3:
-                return isset($data[$parts[0]][$parts[1]][$parts[2]]) ? $data[$parts[0]][$parts[1]][$parts[2]] : $default;
+                return isset($data[$parts[0]][$parts[1]][$parts[2]]) ?
+                    $data[$parts[0]][$parts[1]][$parts[2]] : $default;
             default:
                 foreach ($parts as $key) {
                     if (is_array($data) && isset($data[$key])) {
