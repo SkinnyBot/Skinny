@@ -1,12 +1,12 @@
 {
-    "name": "xety/skinny",
-    "description": "A simple bot in PHP.",
-    "homepage": "https://github.com/Xety/Skinny",
-    "keywords": ["discord", "bot", "php", "discordphp", "botphp"],
+    "name": "skinnybot/skinny",
+    "description": "A simple discord bot in PHP.",
+    "homepage": "https://github.com/SkinnyBot/Skinny",
+    "keywords": ["discord", "bot", "php", "discordphp", "botphp", "skinny"],
     "license": "MIT",
     "support": {
-        "source":"https://github.com/Xety/Skinny",
-        "issues":"https://github.com/Xety/Skinny/issues"
+        "source":"https://github.com/SkinnyBot/Skinny",
+        "issues":"https://github.com/SkinnyBot/Skinny/issues"
     },
     "authors": [
         {

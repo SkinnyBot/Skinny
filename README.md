@@ -2,15 +2,15 @@
 
 |Travis|Scrutinizer|Stable Version|Downloads|License|
 |:------:|:-------:|:-------:|:------:|:------:|
-|[![Build Status](https://img.shields.io/travis/Xety/Skinny.svg?style=flat-square)](https://travis-ci.org/Xety/Skinny)|[![Scrutinizer](https://img.shields.io/scrutinizer/g/Xety/Skinny.svg?style=flat-square)](https://scrutinizer-ci.com/g/Xety/Skinny)|[![Latest Stable Version](https://img.shields.io/packagist/v/Xety/Skinny.svg?style=flat-square)](https://packagist.org/packages/xety/skinny)|[![Total Downloads](https://img.shields.io/packagist/dt/xety/skinny.svg?style=flat-square)](https://packagist.org/packages/xety/skinny)|[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/xety/skinny)
+|[![Build Status](https://img.shields.io/travis/SkinnyBot/Skinny.svg?style=flat-square)](https://travis-ci.org/SkinnyBot/Skinny)|[![Scrutinizer](https://img.shields.io/scrutinizer/g/SkinnyBot/Skinny.svg?style=flat-square)](https://scrutinizer-ci.com/g/SkinnyBot/Skinny)|[![Latest Stable Version](https://img.shields.io/packagist/v/SkinnyBot/Skinny.svg?style=flat-square)](https://packagist.org/packages/skinnybot/skinny)|[![Total Downloads](https://img.shields.io/packagist/dt/skinnybot/skinny.svg?style=flat-square)](https://packagist.org/packages/skinnybot/skinny)|[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/skinnybot/skinny)
 
 A simple bot in PHP using [DiscordPHP](https://github.com/teamreflex/DiscordPHP).
 
 # Note
-This is the core of the Bot. The skeleton of the application can be found [there](https://github.com/Xety/Skinny-Skeleton).
+This is the core of the Bot. The skeleton of the application can be found [there](https://github.com/SkinnyBot/Skinny-Skeleton).
 
 # Installation
-If you just want to use and/or develop your own bot, you should use the [Skinny Skeleton](https://github.com/Xety/Skinny-Skeleton) as a base for your project. Installation steps can be found there.
+If you just want to use and/or develop your own bot, you should use the [Skinny Skeleton](https://github.com/SkinnyBot/Skinny-Skeleton) as a base for your project. Installation steps can be found there.
 
 # Documentation
 #### Creating news Modules
@@ -93,7 +93,7 @@ Then we need to add this command in the `config/commands.php` file :
 That's all, you did a `!say` command.
 
 #### The variable `$message`
-This variable is created by the class [Skinny\Message\Message](https://github.com/Xety/Skinny/blob/master/src/Message/Message.php) and is an array.
+This variable is created by the class [Skinny\Message\Message](https://github.com/SkinnyBot/Skinny/blob/master/src/Message/Message.php) and is an array.
 For example with the phrase `!dev param1 param2 param3 etc`, we will have the following array :
 ```php
 [
@@ -115,7 +115,7 @@ For example with the phrase `!dev param1 param2 param3 etc`, we will have the fo
 ```
 
 #### The object `$wrapper`
-The object is an instance of the class [Skinny\Network\Wrapper](https://github.com/Xety/Skinny/blob/master/src/Network/Wrapper.php) and is used as a wrapper to split all the Discord's classes for a better accessibility and clarity when developing modules.
+The object is an instance of the class [Skinny\Network\Wrapper](https://github.com/SkinnyBot/Skinny/blob/master/src/Network/Wrapper.php) and is used as a wrapper to split all the Discord's classes for a better accessibility and clarity when developing modules.
 
 For example, doing a `debug()` on this object would generate the following output :
 ```php
@@ -155,7 +155,7 @@ This module has the following command and it require to be admin of the bot by d
 |`!module loaded`|Show the list of the loaded modules.|E.g `Modules loaded : Basic, Module, Developer.`|
 
 # Contribute
-[Follow this guide to contribute](https://github.com/Xety/Skinny/blob/master/.github/CONTRIBUTING.md)
+[Follow this guide to contribute](https://github.com/SkinnyBot/Skinny/blob/master/.github/CONTRIBUTING.md)
 
 # Ressources
 * [CakePHP](https://github.com/cakephp/cakephp)

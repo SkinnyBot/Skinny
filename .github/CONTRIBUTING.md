@@ -1,5 +1,5 @@
 # How to Contribute
-* You have found a bug ? You can open an [issue](https://github.com/Xety/Skinny/issues/new). (For a security issue, please send me a mail : [here](mailto:zoro.fmt@gmail.com)) :
+* You have found a bug ? You can open an [issue](https://github.com/SkinnyBot/Skinny/issues/new). (For a security issue, please send me a mail : [here](mailto:zoro.fmt@gmail.com)) :
     * Clearly describe the issue including steps to reproduce when it is a bug.
     * Make sure you fill in the earliest version that you know has the issue.
     * Screenshots and code exemple are welcome in the issues.
