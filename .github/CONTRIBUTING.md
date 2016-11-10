@@ -5,6 +5,6 @@
     * Screenshots and code exemple are welcome in the issues.
 
 * You want to implement a new feature or fix a bug ? Please follow this guide :
-    * Your code **must follow** the [Coding Standard of CakePHP](http://book.cakephp.org/3.0/en/contributing/cakephp-coding-conventions.html). Check the [cakephp-codesniffer](https://github.com/cakephp/cakephp-codesniffer) repository to setup the CakePHP standard.
+    * Your code **must follow** the [PSR2 Coding Standard](http://www.php-fig.org/psr/psr-2/). Check the [squizlabs/php_codesniffer](https://github.com/squizlabs/php_codesniffer) repository to setup the codesniffer.
     * You must **add Test Cases** for your new feature. Test Cases ensure that the application will continue to working in the future.
     * Your PR should be on the `master` branch. The master branch is actually the dev branch.

@@ -9,21 +9,21 @@ class Exception extends \RuntimeException
      *
      * @var array
      */
-    protected $_attributes = [];
+    protected $attributes = [];
 
     /**
      * Template string that has attributes sprintf()'ed into it.
      *
      * @var string
      */
-    protected $_messageTemplate = '';
+    protected $messageTemplate = '';
 
     /**
      * Array of headers to be passed to \Bot\Network\Response::header()
      *
      * @var array
      */
-    protected $_responseHeaders = null;
+    protected $responseHeaders = null;
 
     /**
      * Constructor.
@@ -39,8 +39,8 @@ class Exception extends \RuntimeException
     public function __construct($message, $code = 500, $previous = null)
     {
         if (is_array($message)) {
-            $this->_attributes = $message;
-            $message = vsprintf($this->_messageTemplate, $message);
+            $this->attributes = $message;
+            $message = vsprintf($this->messageTemplate, $message);
         }
         parent::__construct($message, $code, $previous);
     }
@@ -52,6 +52,6 @@ class Exception extends \RuntimeException
      */
     public function getAttributes()
     {
-        return $this->_attributes;
+        return $this->attributes;
     }
 }

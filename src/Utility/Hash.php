@@ -31,17 +31,17 @@ class Hash
         }
 
         if ($noTokens && strpos($path, '{') === false) {
-            return static::_simpleOp('insert', $data, $tokens, $values);
+            return static::simpleOp('insert', $data, $tokens, $values);
         }
 
         $token = array_shift($tokens);
         $nextPath = implode('.', $tokens);
 
-        list($token, $conditions) = static::_splitConditions($token);
+        list($token, $conditions) = static::splitConditions($token);
 
         foreach ($data as $k => $v) {
-            if (static::_matchToken($k, $token)) {
-                if ($conditions && static::_matches($v, $conditions)) {
+            if (static::matchToken($k, $token)) {
+                if ($conditions && static::matches($v, $conditions)) {
                     $data[$k] = array_merge($v, $values);
                     continue;
                 }
@@ -93,7 +93,8 @@ class Hash
             case 2:
                 return isset($data[$parts[0]][$parts[1]]) ? $data[$parts[0]][$parts[1]] : $default;
             case 3:
-                return isset($data[$parts[0]][$parts[1]][$parts[2]]) ? $data[$parts[0]][$parts[1]][$parts[2]] : $default;
+                return isset($data[$parts[0]][$parts[1]][$parts[2]]) ?
+                    $data[$parts[0]][$parts[1]][$parts[2]] : $default;
             default:
                 foreach ($parts as $key) {
                     if (is_array($data) && isset($data[$key])) {
@@ -130,18 +131,18 @@ class Hash
         $tokens = $noTokens ? explode('.', $path) : Text::tokenize($path, '.', '[', ']');
 
         if ($noExpansion && $noTokens) {
-            return static::_simpleOp('remove', $data, $tokens);
+            return static::simpleOp('remove', $data, $tokens);
         }
 
         $token = array_shift($tokens);
         $nextPath = implode('.', $tokens);
 
-        list($token, $conditions) = self::_splitConditions($token);
+        list($token, $conditions) = self::splitConditions($token);
 
         foreach ($data as $k => $v) {
-            $match = static::_matchToken($k, $token);
+            $match = static::matchToken($k, $token);
             if ($match && is_array($v)) {
-                if ($conditions && static::_matches($v, $conditions)) {
+                if ($conditions && static::matches($v, $conditions)) {
                     unset($data[$k]);
                     continue;
                 }
@@ -186,7 +187,7 @@ class Hash
             }
 
             $stack = [[$child, &$result]];
-            static::_merge($stack, $result);
+            static::mergeHelper($stack, $result);
         }
 
         return $result;
@@ -199,7 +200,8 @@ class Hash
      * Hash::merge() will behave in a recursive fashion (unlike `array_merge`). But it will not act recursively for
      * keys that contain scalar values (unlike `array_merge_recursive`).
      *
-     * Note: This function will work with an unlimited amount of arguments and typecasts non-array parameters into arrays.
+     * Note: This function will work with an unlimited amount of arguments
+     * and typecasts non-array parameters into arrays.
      *
      * @param array $data Array to be merged.
      * @param mixed $merge Array to merge with. The argument and all trailing arguments will be array cast when merged.
@@ -215,7 +217,7 @@ class Hash
             $stack[] = [(array)$curArg, &$return];
         }
         unset($curArg);
-        static::_merge($stack, $return);
+        static::mergeHelper($stack, $return);
 
         return $return;
     }
@@ -227,7 +229,7 @@ class Hash
      *
      * @return array [token, conditions] with token splitted
      */
-    protected static function _splitConditions($token)
+    protected static function splitConditions($token)
     {
         $conditions = false;
         $position = strpos($token, '[');
@@ -247,7 +249,7 @@ class Hash
      *
      * @return bool
      */
-    protected static function _matchToken($key, $token)
+    protected static function matchToken($key, $token)
     {
         if ($token === '{n}') {
             return is_numeric($key);
@@ -269,7 +271,7 @@ class Hash
      * @param string $selector The patterns to match.
      * @return bool Fitness of expression.
      */
-    protected static function _matches(array $data, $selector)
+    protected static function matches(array $data, $selector)
     {
         preg_match_all(
             '/(\[ (?P<attr>[^=><!]+?) (\s* (?P<op>[><!]?[=]|[><]) \s* (?P<val>(?:\/.*?\/ | [^\]]+)) )? \])/x',
@@ -333,7 +335,7 @@ class Hash
      *
      * @return array data.
      */
-    protected static function _simpleOp($op, $data, $path, $values = null)
+    protected static function simpleOp($op, $data, $path, $values = null)
     {
         $_list =& $data;
 
@@ -380,12 +382,14 @@ class Hash
      *
      * @return void
      */
-    protected static function _merge($stack, &$return)
+    protected static function mergeHelper($stack, &$return)
     {
         while (!empty($stack)) {
             foreach ($stack as $curKey => &$curMerge) {
                 foreach ($curMerge[0] as $key => &$val) {
-                    if (!empty($curMerge[1][$key]) && (array)$curMerge[1][$key] === $curMerge[1][$key] && (array)$val === $val) {
+                    if (!empty($curMerge[1][$key]) &&
+                        (array)$curMerge[1][$key] === $curMerge[1][$key] &&
+                        (array)$val === $val) {
                         $stack[] = [&$val, &$curMerge[1][$key]];
                     } elseif ((int)$key === $key && isset($curMerge[1][$key])) {
                         $curMerge[1][] = $val;

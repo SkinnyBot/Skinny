@@ -17,21 +17,21 @@ class Debugger
      *
      * @var string
      */
-    protected $_outputFormat = 'js';
+    protected $outputFormat = 'js';
 
     /**
      * Holds current output data when outputFormat is false.
      *
      * @var string
      */
-    protected $_data = [];
+    protected $data = [];
 
     /**
      * Template used to generate the debug messages.
      *
      * @var array
      */
-    protected $_templates = [
+    protected $templates = [
         'log' => [
             'trace' => '{:reference} - {:path}, line {:line}',
             'error' => "{:error} ({:code}): {:description} in [{:file}, line {:line}]"
@@ -71,11 +71,13 @@ class Debugger
     public static function getInstance($class = null)
     {
         static $instance = [];
+        //@codingStandardsIgnoreStart
         if (!empty($class)) {
             if (!$instance || strtolower($class) != strtolower(get_class($instance[0]))) {
                 $instance[0] = new $class();
             }
         }
+        //@codingStandardsIgnoreEnd
         if (!$instance) {
             $instance[0] = new Debugger();
         }
@@ -155,10 +157,10 @@ class Debugger
             } elseif ($options['format'] === 'array') {
                 $back[] = $trace;
             } else {
-                if (isset($self->_templates[$options['format']]['traceLine'])) {
-                    $tpl = $self->_templates[$options['format']]['traceLine'];
+                if (isset($self->templates[$options['format']]['traceLine'])) {
+                    $tpl = $self->templates[$options['format']]['traceLine'];
                 } else {
-                    $tpl = $self->_templates['base']['traceLine'];
+                    $tpl = $self->templates['base']['traceLine'];
                 }
 
                 $trace['path'] = static::trimPath($trace['file']);
@@ -200,7 +202,7 @@ class Debugger
      */
     public static function exportVar($var, $depth = 3)
     {
-        return static::_export($var, $depth, 0);
+        return static::export($var, $depth, 0);
     }
 
     /**
@@ -212,7 +214,7 @@ class Debugger
      *
      * @return string The dumped variable.
      */
-    protected static function _export($var, $depth, $indent)
+    protected static function export($var, $depth, $indent)
     {
         switch (static::getType($var)) {
             case 'boolean':
@@ -228,7 +230,7 @@ class Debugger
 
                 return "'" . $var . "'";
             case 'array':
-                return static::_array($var, $depth - 1, $indent + 1);
+                return static::array($var, $depth - 1, $indent + 1);
             case 'resource':
                 return strtolower(gettype($var));
             case 'null':
@@ -236,7 +238,7 @@ class Debugger
             case 'unknown':
                 return 'unknown';
             default:
-                return static::_object($var, $depth - 1, $indent + 1);
+                return static::object($var, $depth - 1, $indent + 1);
         }
     }
 
@@ -249,7 +251,7 @@ class Debugger
      *
      * @return string
      */
-    protected static function _object($var, $depth, $indent)
+    protected static function object($var, $depth, $indent)
     {
         $out = '';
         $props = [];
@@ -262,7 +264,7 @@ class Debugger
         if ($depth > 0 && method_exists($var, '__debugInfo')) {
             try {
                 return $out . "\n" .
-                substr(static::_array($var->__debugInfo(), $depth - 1, $indent), 1, -1) .
+                substr(static::array($var->__debugInfo(), $depth - 1, $indent), 1, -1) .
                 $end . '}';
             } catch (Exception $e) {
                 return $out . "\n(unable to export object)\n }";
@@ -272,7 +274,7 @@ class Debugger
         if ($depth > 0) {
             $objectVars = get_object_vars($var);
             foreach ($objectVars as $key => $value) {
-                $value = static::_export($value, $depth - 1, $indent);
+                $value = static::export($value, $depth - 1, $indent);
                 $props[] = "$key => " . $value;
             }
 
@@ -285,10 +287,11 @@ class Debugger
 
             foreach ($filters as $filter => $visibility) {
                 $reflectionProperties = $ref->getProperties($filter);
+
                 foreach ($reflectionProperties as $reflectionProperty) {
                     $reflectionProperty->setAccessible(true);
                     $property = $reflectionProperty->getValue($var);
-                    $value = static::_export($property, $depth - 1, $indent);
+                    $value = static::export($property, $depth - 1, $indent);
                     $key = $reflectionProperty->name;
                     $props[] = sprintf('[%s] %s => %s', $visibility, $key, $value);
                 }
@@ -320,7 +323,7 @@ class Debugger
      *
      * @return string Exported array.
      */
-    protected static function _array(array $var, $depth, $indent)
+    protected static function array(array $var, $depth, $indent)
     {
         $out = "[";
         $break = $end = null;
@@ -335,7 +338,7 @@ class Debugger
                 if ($key === 'GLOBALS' && is_array($val) && isset($val['GLOBALS'])) {
                     $val = '[recursion]';
                 } elseif ($val !== $var) {
-                    $val = static::_export($val, $depth, $indent);
+                    $val = static::export($val, $depth, $indent);
                 }
                 $vars[] = $break . static::exportVar($key) .
                 ' => ' .
