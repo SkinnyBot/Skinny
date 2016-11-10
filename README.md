@@ -19,8 +19,8 @@ Here is the default template for a module, named `Basic` for example :
 <?php
 namespace Bot\Module\Modules;
 
-use Bot\Module\ModuleInterface;
-use Bot\Network\Wrapper;
+use Skinny\Module\ModuleInterface;
+use Skinny\Network\Wrapper;
 
 class Basic implements ModuleInterface
 {
