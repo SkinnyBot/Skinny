@@ -139,8 +139,8 @@ object(Skinny\Network\Wrapper) {
 ```
 
 #### The Module System
-As i said before, this bot implement a Module system. The Module Manager work like that in debug mode **only** :
-The Module Manager load the file's contents first, then use `preg_replace()` to replace the original class-name with a random one. After that, its create a copy and include it.
+As i said before, this bot implement a Module system. The Module system work like that in debug mode **only** :
+The Module system load the file's contents first, then use `preg_replace()` to replace the original class-name with a random one. After that, its create a copy and include it.
 
 #### The Module Manager
 The Module manager is a module that allow to manage modules with command. That means you can code your own module and load/reload it without restarting the bot. Isn't that cool ?! :laughing:
