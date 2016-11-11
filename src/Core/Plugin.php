@@ -103,7 +103,6 @@ class Plugin
         if ($config['bootstrap'] === true) {
             static::bootstrap($plugin);
         }
-        debug(Configure::read());
     }
 
     /**
