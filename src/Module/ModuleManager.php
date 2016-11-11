@@ -150,6 +150,47 @@ class ModuleManager implements ArrayAccess, Countable
     }
 
     /**
+     * Check if the module exist in the plugin list. Primary used when we need to load a module and
+     * the module doesn't exists in the application itself.
+     *
+     * @param $module The module to check.
+     *
+     * @return array The config needed for the ModuleManager::load() function.
+     */
+    protected function checkPlugins($module)
+    {
+        $loadedPlugins = Configure::read('plugins');
+        $arr = [];
+
+        if (empty($loadedPlugins) || !is_array($loadedPlugins)) {
+            return $arr;
+        }
+
+        foreach ($loadedPlugins as $plugin => $pluginPath) {
+            $pluginPath = Plugin::classPath($plugin) . 'Module' . DS . 'Modules';
+            $files = new DirectoryIterator($pluginPath);
+
+            foreach ($files as $file) {
+                $filename = $file->getFilename();
+
+                if ($file->isDot() || $file->isDir() || $filename[0] == '.') {
+                    continue;
+                } elseif ($file->isFile() && substr($filename, -4) != '.php') {
+                    continue;
+                } elseif (Inflector::camelize(substr($filename, 0, -4)) !== $module) {
+                    continue;
+                } else {
+                    $arr = ['pathDir' => $pluginPath, 'plugin' => $plugin];
+
+                    return $arr;
+                }
+            }
+        }
+
+        return $arr;
+    }
+
+    /**
      * Loads a module into the Framework and prioritize it according to our priority list.
      *
      * Options :
@@ -175,7 +216,13 @@ class ModuleManager implements ArrayAccess, Countable
         if (isset($this->loadedModules[$module])) {
             //Return the message AlreadyLoaded.
             return 'AL';
-        } elseif (!file_exists($config['pathDir'] . DS . $module . '.php')) {
+        }
+
+        //Check if the module exist in the plugin list.
+        $config = array_merge($config, $this->checkPlugins($module));
+
+
+        if (!file_exists($config['pathDir'] . DS . $module . '.php')) {
             //Return NotFound.
             return 'NF';
         }
