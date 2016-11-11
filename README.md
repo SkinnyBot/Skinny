@@ -25,7 +25,7 @@ If you just want to use and/or develop your own bot, you should use the [Skinny 
     - [Creating a Plugin without composer](creating-a-plugin-without-composer)
 
 ### Core
-- #### Creating news Modules
+#### Creating news Modules
 The bot come with a Module system and a Module manager that allow you to create Modules for your custom commands.
 Here is the default template for a module, named `Basic` for example :
 
@@ -104,7 +104,7 @@ Then we need to add this command in the `config/commands.php` file :
 
 That's all, you did a `!say` command.
 
-- #### The variable `$message`
+#### The variable `$message`
 
 This variable is created by the class [Skinny\Message\Message](https://github.com/SkinnyBot/Skinny/blob/master/src/Message/Message.php) and is an array.
 For example with the phrase `!dev param1 param2 param3 etc`, we will have the following array :
@@ -127,7 +127,7 @@ For example with the phrase `!dev param1 param2 param3 etc`, we will have the fo
 ]
 ```
 
-* #### The object `$wrapper`
+#### The object `$wrapper`
 
 The object is an instance of the class [Skinny\Network\Wrapper](https://github.com/SkinnyBot/Skinny/blob/master/src/Network/Wrapper.php) and is used as a wrapper to split all the Discord's classes for a better accessibility and clarity when developing modules.
 
@@ -152,12 +152,12 @@ object(Skinny\Network\Wrapper) {
 }
 ```
 
-* #### The Module System
+#### The Module System
 
 As i said before, this bot implement a Module system. The Module system work like that in debug mode **only** :
 The Module system load the file's contents first, then use `preg_replace()` to replace the original class-name with a random one. After that, its create a copy and include it.
 
-* #### The Module Manager
+#### The Module Manager
 
 The Module manager is a module that allow to manage modules with command. That means you can code your own module and load/reload it without restarting the bot. Isn't that cool ?! :laughing:
 This module has the following command and it require to be admin of the bot by default :
@@ -173,7 +173,7 @@ This module has the following command and it require to be admin of the bot by d
 ### Plugins
 Yes, you can create plugins for this bots. While i recommend to create a plugin using composer you can also create a plugin without using composer, it can be usefull when you develop a plugin. You can find the demo plugin named `Basic` [here](ttps://github.com/SkinnyBot/Basic).
 
-* #### Creating a Plugin with composer
+#### Creating a Plugin with composer
 
 Creating a plugin with composer is easy. First you must create a composer.json file like this :
 ```json
@@ -217,7 +217,7 @@ When you have finished to code your plugin, you must of course publish it on [Pa
 
 
 
-* #### Creating a Plugin without composer
+#### Creating a Plugin without composer
 
 When you create a plugin without composer, your plugins must be in the `plugins` folder. Let's create the same Basic plugin without composer, the hierarchical structure of the files will be like this :
 ```
