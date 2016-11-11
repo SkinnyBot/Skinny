@@ -148,7 +148,7 @@ This module has the following command and it require to be admin of the bot by d
 
 |Command|Description|Note|
 |------|-------|-------|
-|`!module load <module>`|Load the specified module.||
+|`!module load <module>`|Load the specified module.|Can not be used to load plugin in the fly at the moment.|
 |`!module unload <module>`|Unload the specified module.|Only usable in `debug` mode.|
 |`!module reload <module>`|Reload the specified module.|Only usable in `debug` mode.|
 |`!module time <module>`|Display the time from when the module is loaded.|Display style : `0 days, 1 hours, 38 minutes and 31 seconds`|
@@ -158,4 +158,4 @@ This module has the following command and it require to be admin of the bot by d
 [Follow this guide to contribute](https://github.com/SkinnyBot/Skinny/blob/master/.github/CONTRIBUTING.md)
 
 # Special Thanks
-* Thanks to the CakePHP team and their awesome [CakePHP Core](https://github.com/cakephp/cakephp) features.
+* Thanks to the CakePHP team and their awesome [CakePHP Core](https://github.com/cakephp/core) features.

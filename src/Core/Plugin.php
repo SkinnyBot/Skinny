@@ -124,7 +124,7 @@ class Plugin
         static::loadConfig();
 
         $config += [
-            'commands' => true,
+            'commands' => false,
             'classBase' => 'src',
             'ignoreMissing' => false
         ];
