@@ -16,13 +16,13 @@ If you just want to use and/or develop your own bot, you should use the [Skinny 
 ## Summary
 - [Core](#core)
     - [Creating news Modules](#creating-news-modules)
-    - [The variable `$message`](#the-variable--message)
-    - [The object `$wrapper`](#the-object--wrapper)
+    - [The variable `$message`](#the-variable-message)
+    - [The object `$wrapper`](#the-object-wrapper)
     - [The Module System](#the-module-system)
     - [The Module Manager](#the-module-manager)
 - [Plugins](#plugins)
-    - [Creating a Plugin with composer](creating-a-plugin-with-composer)
-    - [Creating a Plugin without composer](creating-a-plugin-without-composer)
+    - [Creating a Plugin with composer](#creating-a-plugin-with-composer)
+    - [Creating a Plugin without composer](#creating-a-plugin-without-composer)
 
 ### Core
 #### Creating news Modules
