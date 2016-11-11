@@ -1,7 +1,7 @@
 <?php
 namespace Skinny\Utility;
 
-use Skinny\Configure\Configure;
+use Skinny\Core\Configure;
 
 class Command
 {

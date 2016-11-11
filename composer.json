@@ -29,7 +29,7 @@
             "Skinny\\": "src"
         },
         "files": [
-            "src/basics.php"
+            "src/functions.php"
         ]
     },
     "autoload-dev": {

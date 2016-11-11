@@ -157,5 +157,5 @@ This module has the following command and it require to be admin of the bot by d
 # Contribute
 [Follow this guide to contribute](https://github.com/SkinnyBot/Skinny/blob/master/.github/CONTRIBUTING.md)
 
-# Ressources
-* [CakePHP](https://github.com/cakephp/cakephp)
+# Special Thanks
+* Thanks to the CakePHP team and their awesome [CakePHP Core](https://github.com/cakephp/cakephp) features.

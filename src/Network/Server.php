@@ -2,7 +2,7 @@
 namespace Skinny\Network;
 
 use Discord\Discord;
-use Skinny\Configure\Configure;
+use Skinny\Core\Configure;
 use Skinny\Message\Message;
 use Skinny\Module\ModuleManager;
 use Skinny\Network\Wrapper;

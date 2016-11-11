@@ -1,5 +1,5 @@
 <?php
-use Skinny\Configure\Configure;
+use Skinny\Core\Configure;
 use Skinny\Error\Debugger;
 
 if (!function_exists('debug')) {
@@ -51,4 +51,37 @@ TEXT;
 
         printf($template, $lineInfo, $var, PHP_EOL);
     }
+}
+
+
+if (!function_exists('pluginSplit')) {
+    /**
+     * Splits a dot syntax plugin name into its plugin and class name.
+     * If $name does not have a dot, then index 0 will be null.
+     *
+     * Commonly used like
+     * ```
+     * list($plugin, $name) = pluginSplit($name);
+     * ```
+     *
+     * @param string $name The name you want to plugin split.
+     * @param bool $dotAppend Set to true if you want the plugin to have a '.' appended to it.
+     * @param string|null $plugin Optional default plugin to use if no plugin is found. Defaults to null.
+     * @return array Array with 2 indexes. 0 => plugin name, 1 => class name.
+     * @link http://book.cakephp.org/3.0/en/core-libraries/global-constants-and-functions.html#pluginSplit
+     */
+    function pluginSplit($name, $dotAppend = false, $plugin = null)
+    {
+        if (strpos($name, '.') !== false) {
+            $parts = explode('.', $name, 2);
+            if ($dotAppend) {
+                $parts[0] .= '.';
+            }
+
+            return $parts;
+        }
+
+        return [$plugin, $name];
+    }
+
 }

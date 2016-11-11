@@ -1,5 +1,5 @@
 <?php
-namespace Skinny\Configure\Configure\Exception;
+namespace Skinny\Core\Exception;
 
 class Exception extends \RuntimeException
 {

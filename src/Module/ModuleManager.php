@@ -6,7 +6,8 @@ use Countable;
 use DirectoryIterator;
 use Exception;
 use RuntimeException;
-use Skinny\Configure\Configure;
+use Skinny\Core\Configure;
+use Skinny\Core\Plugin;
 use Skinny\Utility\Inflector;
 
 class ModuleManager implements ArrayAccess, Countable
@@ -48,21 +49,15 @@ class ModuleManager implements ArrayAccess, Countable
     {
         $this->priorityList = $priorities;
         $files = new DirectoryIterator(MODULE_DIR);
+        $this->loadModules($files);
 
-        foreach ($files as $file) {
-            $filename = $file->getFilename();
+        $plugins = Plugin::loaded();
+        if (!empty((array)$plugins)) {
+            foreach ($plugins as $plugin) {
+                $path = Plugin::classPath($plugin) . 'Module' . DS . 'Modules';
+                $files = new DirectoryIterator($path);
 
-            if ($file->isDot() || $file->isDir() || $filename[0] == '.') {
-                // Ignore hidden files and directories.
-                continue;
-            } elseif ($file->isFile() && substr($filename, -4) != '.php') {
-                continue;
-            } else {
-                try {
-                    $this->load(substr($filename, 0, -4));
-                } catch (Exception $e) {
-                    throw new RuntimeException(sprintf('Error while loading module : %s', $e->getMessage()));
-                }
+                $this->loadModules($files, ['pathDir' => $path, 'plugin' => $plugin]);
             }
         }
     }
@@ -73,20 +68,6 @@ class ModuleManager implements ArrayAccess, Countable
     public function __destruct()
     {
         $this->loadedModules = [];
-    }
-
-    /**
-     * Argument that should be passed into Modules.
-     *
-     * @param array $argument The arguments to add.
-     *
-     * @return bool
-     */
-    public function addPrefixArgument($argument)
-    {
-        $this->prefixArgument = $argument;
-
-        return true;
     }
 
     /**
@@ -122,28 +103,85 @@ class ModuleManager implements ArrayAccess, Countable
     }
 
     /**
-     * Loads a module into the Framework and prioritize it according to our priority list.
+     * Argument that should be passed into Modules.
      *
-     * @param string $module Filename in the MODULE_DIR we want to load.
+     * @param array $argument The arguments to add.
+     *
+     * @return bool
+     */
+    public function addPrefixArgument($argument)
+    {
+        $this->prefixArgument = $argument;
+
+        return true;
+    }
+
+    /**
+     * Loads the list of modules in the DirectoryIterator.
+     *
+     * Options :
+     * - pathDir : The full path of the Modules directory. Default to MODULE_DIR.
+     * - plugin : The plugin name or false if no plugin. Default to false.
+     *
+     * @param \DirectoryIterator $files The DirectoryIterator instance.
+     * @param array $config The configuration options.
      *
      * @throws \RuntimeException When the class doesn't implement the ModuleInterface.
      *
      * @return string
      */
-    public function load($module)
+    protected function loadModules(DirectoryIterator $files, array $config = [])
+    {
+        foreach ($files as $file) {
+            $filename = $file->getFilename();
+            if ($file->isDot() || $file->isDir() || $filename[0] == '.') {
+                // Ignore hidden files and directories.
+                continue;
+            } elseif ($file->isFile() && substr($filename, -4) != '.php') {
+                continue;
+            } else {
+                try {
+                    $this->load(substr($filename, 0, -4), $config);
+                } catch (Exception $e) {
+                    throw new RuntimeException(sprintf('Error while loading module : %s', $e->getMessage()));
+                }
+            }
+        }
+    }
+
+    /**
+     * Loads a module into the Framework and prioritize it according to our priority list.
+     *
+     * Options :
+     * - pathDir : The full path of the Modules directory. Default to MODULE_DIR.
+     * - plugin : The plugin name or false if no plugin. Default to false.
+     *
+     * @param string $module Filename of the module we want to load.
+     * @param array $config The configuration options.
+     *
+     * @throws \RuntimeException When the class doesn't implement the ModuleInterface.
+     *
+     * @return string
+     */
+    public function load($module, array $config = [])
     {
         $module = Inflector::camelize($module);
+
+        $config += [
+            'pathDir' => MODULE_DIR,
+            'plugin' => false
+        ];
 
         if (isset($this->loadedModules[$module])) {
             //Return the message AlreadyLoaded.
             return 'AL';
-        } elseif (!file_exists(MODULE_DIR . DS . $module . '.php')) {
+        } elseif (!file_exists($config['pathDir'] . DS . $module . '.php')) {
             //Return NotFound.
             return 'NF';
         }
 
         //Check if this class already exists.
-        $path = MODULE_DIR . DS . $module . '.php';
+        $path = $config['pathDir'] . DS . $module . '.php';
         $className = Configure::read('App.namespace') . DS . 'Module' . DS . 'Modules' . DS . $module;
 
         if (Configure::read('debug') === false) {
@@ -164,7 +202,8 @@ class ModuleManager implements ArrayAccess, Countable
             require_once $name;
             unlink($name);
 
-            $className = Configure::read('App.namespace') . DS . 'Module' . DS . 'Modules' . DS . $newClass;
+            $namespace = ($config['plugin'] !== false) ? $config['plugin'] : Configure::read('App.namespace');
+            $className = $namespace . DS . 'Module' . DS . 'Modules' . DS . $newClass;
         }
 
         $className = str_replace('/', '\\', rtrim($className, '\\'));
@@ -173,6 +212,9 @@ class ModuleManager implements ArrayAccess, Countable
         $new = [
             'object' => $objectModule,
             'loaded' => time(),
+            'plugin' => ($config['plugin'] !== false) ? true : false,
+            'pluginName' => ($config['plugin'] !== false) ? $config['plugin'] : '',
+            'pluginPath' => $config['pathDir'],
             'name' => $className,
             'modified' => (isset($contents) ? true : false)
         ];
@@ -234,6 +276,14 @@ class ModuleManager implements ArrayAccess, Countable
     public function reload($module)
     {
         $module = Inflector::camelize($module);
+        $config = [];
+
+        if (isset($this->loadedModules[$module]) && $this->loadedModules[$module]['plugin'] === true) {
+            $config += [
+                'pathDir' => $this->loadedModules[$module]['pluginPath'],
+                'plugin' => $this->loadedModules[$module]['pluginName']
+            ];
+        }
 
         $unload = $this->unload($module);
 
@@ -241,7 +291,7 @@ class ModuleManager implements ArrayAccess, Countable
             return $unload;
         }
 
-        return $this->load($module);
+        return $this->load($module, $config);
     }
 
     /**

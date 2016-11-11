@@ -106,7 +106,7 @@ class Debugger
         $self = Debugger::getInstance();
         $defaults = [
             'depth' => 999,
-            'format' => $self->_outputFormat,
+            'format' => $self->outputFormat,
             'args' => false,
             'start' => 0,
             'scope' => null,
