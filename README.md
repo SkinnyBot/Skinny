@@ -171,11 +171,11 @@ This module has the following command and it require to be admin of the bot by d
 |`!module loaded`|Show the list of the loaded modules.|E.g `Modules loaded : Basic, Module, Developer.`|
 
 ### Plugins
-Yes, you can create plugins for this bots. While i recommend to create a plugin using composer you can also create a plugin without using composer, it can be usefull when you develop a plugin. You can find the demo plugin named `Basic` [here](ttps://github.com/SkinnyBot/Basic).
+Yes, you can create plugins for this bot. While i recommend to create a plugin using composer you can also create a plugin without using composer, it can be usefull when you develop a plugin. You can find the demo plugin named `Basic` [here](https://github.com/SkinnyBot/Basic).
 
 #### Creating a Plugin with composer
 
-Creating a plugin with composer is easy. First you must create a composer.json file like this :
+Creating a plugin with composer is easy. First you must create a `composer.json` file like this :
 ```json
 {
     "name": "skinnybot/basic",
@@ -203,7 +203,6 @@ Creating a plugin with composer is easy. First you must create a composer.json f
 ```
 **Note** : The `type` of the composer file **must be** `skinny-plugin`, else your plugin won't work. The hierarchical structure of the files will be like this :
 ```
-config/
 /config/
     /bootstrap.php
     /commands.php
@@ -251,4 +250,4 @@ Plugin::load('Basic', ['bootstrap' => true]);
 [Follow this guide to contribute](https://github.com/SkinnyBot/Skinny/blob/master/.github/CONTRIBUTING.md)
 
 # Special Thanks
-* Thanks to the CakePHP team and their awesome [CakePHP Core](https://github.com/cakephp/core) features.
+* Thanks to the CakePHP team and their awesome [CakePHP Core](https://github.com/cakephp/core) classes used to create the plugin system.
