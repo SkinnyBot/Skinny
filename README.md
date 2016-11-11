@@ -25,7 +25,7 @@ If you just want to use and/or develop your own bot, you should use the [Skinny 
     - [Creating a Plugin without composer](creating-a-plugin-without-composer)
 
 ### Core
-* #### Creating news Modules
+- #### Creating news Modules
 The bot come with a Module system and a Module manager that allow you to create Modules for your custom commands.
 Here is the default template for a module, named `Basic` for example :
 
@@ -104,7 +104,7 @@ Then we need to add this command in the `config/commands.php` file :
 
 That's all, you did a `!say` command.
 
-* #### The variable `$message`
+- #### The variable `$message`
 
 This variable is created by the class [Skinny\Message\Message](https://github.com/SkinnyBot/Skinny/blob/master/src/Message/Message.php) and is an array.
 For example with the phrase `!dev param1 param2 param3 etc`, we will have the following array :
@@ -171,7 +171,7 @@ This module has the following command and it require to be admin of the bot by d
 |`!module loaded`|Show the list of the loaded modules.|E.g `Modules loaded : Basic, Module, Developer.`|
 
 ### Plugins
-Yes, you can create plugins for this bots. While i recommend to create a plugin using composer you can also create a plugin without using composer. You can find the demo plugin named `Basic` [here](ttps://github.com/SkinnyBot/Basic).
+Yes, you can create plugins for this bots. While i recommend to create a plugin using composer you can also create a plugin without using composer, it can be usefull when you develop a plugin. You can find the demo plugin named `Basic` [here](ttps://github.com/SkinnyBot/Basic).
 
 * #### Creating a Plugin with composer
 
