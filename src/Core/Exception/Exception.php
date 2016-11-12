@@ -19,7 +19,7 @@ class Exception extends \RuntimeException
     protected $messageTemplate = '';
 
     /**
-     * Array of headers to be passed to \Bot\Network\Response::header()
+     * Array of headers to be passed to \Skinny\Network\Response::header()
      *
      * @var array
      */
@@ -34,6 +34,7 @@ class Exception extends \RuntimeException
      * @param string|array $message Either the string of the error message, or an array of attributes
      *   that are made available in the view, and sprintf()'d into Exception::$_messageTemplate
      * @param int $code The code of the error, is also the HTTP status code for the error.
+     *
      * @param \Exception $previous the previous exception.
      */
     public function __construct($message, $code = 500, $previous = null)

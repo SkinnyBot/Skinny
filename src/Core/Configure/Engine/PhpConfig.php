@@ -43,7 +43,7 @@ class PhpConfig implements ConfigEngineInterface
      *
      * @return array Parsed configuration values.
      *
-     * @throws \Cake\Core\Exception\Exception when files don't exist or they don't contain `$config`.
+     * @throws \Skinny\Core\Exception\Exception when files don't exist or they don't contain `$config`.
      *  Or when files contain '..' as this could lead to abusive reads.
      */
     public function read($key)
@@ -70,7 +70,7 @@ class PhpConfig implements ConfigEngineInterface
      *  as a plugin prefix.
      * @param array $data Data to dump.
      *
-     * @return bool Success
+     * @return bool Success.
      */
     public function dump($key, array $data)
     {

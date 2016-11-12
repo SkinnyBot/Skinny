@@ -23,7 +23,7 @@ class Configure
      * Configured engine classes, used to load config files from resources
      *
      * @var array
-     * @see \Cake\Core\Configure::load()
+     * @see \Skinny\Core\Configure::load()
      */
     protected static $engines = [];
 
@@ -54,7 +54,7 @@ class Configure
      *
      * @param string|array $config The key to write, can be a dot notation value.
      * Alternatively can be an array containing key(s) and value(s).
-     * @param mixed $value Value to set for var
+     * @param mixed $value Value to set for var.
      *
      * @return bool True if write was successful
      */
@@ -106,8 +106,9 @@ class Configure
     /**
      * Returns true if given variable is set in Configure.
      *
-     * @param string $var Variable name to check for
-     * @return bool True if variable is there
+     * @param string $var Variable name to check for.
+     *
+     * @return bool True if variable is there.
      */
     public static function check($var)
     {
@@ -133,6 +134,7 @@ class Configure
      * ```
      *
      * @param string $var Variable to obtain. Use '.' to access array elements.
+     *
      * @return mixed Value stored in configure.
      *
      * @throws \RuntimeException if the requested configuration is not set.
@@ -155,7 +157,7 @@ class Configure
      * Configure::delete('Name.key'); will delete only the Configure::Name[key]
      * ```
      *
-     * @param string $var the var to be deleted
+     * @param string $var The var to be deleted.
      *
      * @return void
      */
@@ -166,9 +168,6 @@ class Configure
 
     /**
      * Used to read and delete a variable from Configure.
-     *
-     * This is primarily used during bootstrapping to move configuration data
-     * out of configure into the various other classes in CakePHP.
      *
      * @param string $var The key to read and remove.
      *
@@ -193,8 +192,8 @@ class Configure
 
     /**
      * Add a new engine to Configure. Engines allow you to read configuration
-     * files in various formats/storage locations. CakePHP comes with two built-in engines
-     * PhpConfig and IniConfig. You can also implement your own engine classes in your application.
+     * files in various formats/storage locations. You can also implement your
+     * own engine classes in your application.
      *
      * To add a new engine to Configure:
      *
@@ -204,7 +203,7 @@ class Configure
      *
      * @param string $name The name of the engine being configured. This alias is used later to
      *   read values from a specific engine.
-     * @param \Cake\Core\Configure\ConfigEngineInterface $engine The engine to append.
+     * @param \Skinny\Core\Configure\ConfigEngineInterface $engine The engine to append.
      *
      * @return void
      */
@@ -265,11 +264,11 @@ class Configure
      * ```
      *
      * If using `default` config and no engine has been configured for it yet,
-     * one will be automatically created using PhpConfig
+     * one will be automatically created using PhpConfig.
      *
-     * @param string $key name of configuration resource to load.
+     * @param string $key Name of configuration resource to load.
      * @param string $config Name of the configured engine to use to read the resource identified by $key.
-     * @param bool $merge if config files should be merged instead of simply overridden
+     * @param bool $merge If config files should be merged instead of simply overridden.
      *
      * @return bool False if file not found, true if load successful.
      */
@@ -317,7 +316,7 @@ class Configure
      *
      * @return bool Success
      *
-     * @throws \Cake\Core\Exception\Exception if the adapter does not implement a `dump` method.
+     * @throws \Skinny\Core\Exception\Exception If the adapter does not implement a `dump` method.
      */
     public static function dump($key, $config = 'default', $keys = [])
     {
@@ -338,7 +337,8 @@ class Configure
      * Will create new PhpConfig for default if not configured yet.
      *
      * @param string $config The name of the configured adapter
-     * @return \Cake\Core\Configure\ConfigEngineInterface|false Engine instance or false
+     *
+     * @return \Skinny\Core\Configure\ConfigEngineInterface|false Engine instance or false.
      */
     protected static function getEngine($config)
     {
@@ -353,23 +353,36 @@ class Configure
     }
 
     /**
-     * Used to determine the current version of CakePHP.
+     * Used to determine the current version of Skinny.
      *
      * Usage
      * ```
      * Configure::version();
      * ```
      *
-     * @return string Current version of CakePHP
+     * @return string Current version of Skinny.
      */
     public static function version()
     {
-        if (!isset(static::$values['Bot']['version'])) {
+        if (!isset(static::$values['Skinny']['version'])) {
             $config = require SKINNY_PATH . 'config' . DS . 'version.php';
             static::write($config);
         }
 
-        return static::$values['Bot']['version'];
+        return static::$values['Skinny']['version'];
+    }
+
+    /**
+     * Verifies that the application's token value has been changed from the default value.
+     *
+     * @return void
+     */
+    public static function checkTokenKey()
+    {
+        if (Configure::read('Discord.token') === 'insert-your-token-here') {
+            trigger_error(sprintf('Please change the value of %s in %s to a valid token.',
+                '\'Discord.token\'', ROOT . '/config/app.php'), E_USER_NOTICE);
+        }
     }
 
     /**

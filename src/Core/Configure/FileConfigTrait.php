@@ -4,9 +4,6 @@ namespace Skinny\Core\Configure;
 use Skinny\Core\Exception\Exception;
 use Skinny\Core\Plugin;
 
-/**
- * Trait providing utility methods for file based config engines.
- */
 trait FileConfigTrait
 {
 
@@ -23,8 +20,10 @@ trait FileConfigTrait
      * @param string $key The identifier to write to. If the key has a . it will be treated
      *  as a plugin prefix.
      * @param bool $checkExists Whether to check if file exists. Defaults to false.
+     *
      * @return string Full file path
-     * @throws \Cake\Core\Exception\Exception When files don't exist or when
+     *
+     * @throws \Skinny\Core\Exception\Exception When files don't exist or when
      *  files contain '..' as this could lead to abusive reads.
      */
     protected function getFilePath($key, $checkExists = false)

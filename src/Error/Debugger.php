@@ -17,7 +17,7 @@ class Debugger
      *
      * @var string
      */
-    protected $outputFormat = 'js';
+    protected $outputFormat = 'base';
 
     /**
      * Holds current output data when outputFormat is false.
@@ -35,20 +35,6 @@ class Debugger
         'log' => [
             'trace' => '{:reference} - {:path}, line {:line}',
             'error' => "{:error} ({:code}): {:description} in [{:file}, line {:line}]"
-        ],
-        'js' => [
-            'error' => '',
-            'info' => '',
-            'trace' => '<pre class="stack-trace">{:trace}</pre>',
-            'code' => '',
-            'context' => '',
-            'links' => [],
-            'escapeContext' => true,
-        ],
-        'html' => [
-            'trace' => '<pre class="cake-error trace"><b>Trace</b> <p>{:trace}</p></pre>',
-            'context' => '<pre class="cake-error context"><b>Context</b> <p>{:context}</p></pre>',
-            'escapeContext' => true,
         ],
         'txt' => [
             'error' => "{:error}: {:code} :: {:description} on line {:line} of {:path}\n{:info}",

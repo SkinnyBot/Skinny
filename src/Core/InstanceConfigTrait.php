@@ -1,39 +1,21 @@
 <?php
-/**
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @since         3.0.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- */
-namespace Cake\Core;
+namespace Skinny\Core;
 
-use Cake\Core\Exception\Exception;
-use Cake\Utility\Hash;
+use Skinny\Core\Exception\Exception;
+use Skinny\Utility\Hash;
 
-/**
- * A trait for reading and writing instance config
- *
- * Implementing objects are expected to declare a `$_defaultConfig` property.
- */
 trait InstanceConfigTrait
 {
 
     /**
-     * Runtime config
+     * Runtime config.
      *
      * @var array
      */
     protected $config = [];
 
     /**
-     * Whether the config property has already been configured with defaults
+     * Whether the config property has already been configured with defaults.
      *
      * @var bool
      */
@@ -81,8 +63,10 @@ trait InstanceConfigTrait
      * @param string|array|null $key The key to get/set, or a complete array of configs.
      * @param mixed|null $value The value to set.
      * @param bool $merge Whether to recursively merge or overwrite existing config, defaults to true.
+     *
      * @return mixed Config value being read, or the object itself on write operations.
-     * @throws \Cake\Core\Exception\Exception When trying to set a key that is invalid.
+     *
+     * @throws \Skinny\Core\Exception\Exception When trying to set a key that is invalid.
      */
     public function config($key = null, $value = null, $merge = true)
     {
@@ -124,6 +108,7 @@ trait InstanceConfigTrait
      *
      * @param string|array $key The key to set, or a complete array of configs.
      * @param mixed|null $value The value to set.
+     *
      * @return $this The object itself.
      */
     public function configShallow($key, $value = null)
@@ -139,9 +124,10 @@ trait InstanceConfigTrait
     }
 
     /**
-     * Read a config variable
+     * Read a config variable.
      *
      * @param string|null $key Key to read.
+     *
      * @return mixed
      */
     protected function configRead($key)
@@ -169,14 +155,16 @@ trait InstanceConfigTrait
     }
 
     /**
-     * Write a config variable
+     * Write a config variable.
      *
      * @param string|array $key Key to write to.
      * @param mixed $value Value to write.
      * @param bool|string $merge True to merge recursively, 'shallow' for simple merge,
      *   false to overwrite, defaults to false.
+     *
      * @return void
-     * @throws \Cake\Core\Exception\Exception if attempting to clobber existing config
+     *
+     * @throws \Skinny\Core\Exception\Exception if attempting to clobber existing config
      */
     protected function configWrite($key, $value, $merge = false)
     {
@@ -230,11 +218,13 @@ trait InstanceConfigTrait
     }
 
     /**
-     * Delete a single config key
+     * Delete a single config key.
      *
      * @param string $key Key to delete.
+     *
      * @return void
-     * @throws \Cake\Core\Exception\Exception if attempting to clobber existing config
+     *
+     * @throws \Skinny\Core\Exception\Exception If attempting to clobber existing config.
      */
     protected function configDelete($key)
     {
