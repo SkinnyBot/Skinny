@@ -52,7 +52,6 @@ class Server
 
             // Listen for events here
             $discord->on('message', function ($message) {
-
                 $content = Message::getInstance()->setData($message->content);
                 $wrapper = Wrapper::getInstance()->setInstances($message, $this->ModuleManager);
 

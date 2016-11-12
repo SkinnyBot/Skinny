@@ -153,7 +153,7 @@ class ModuleManager implements ArrayAccess, Countable
      * Check if the module exist in the plugin list. Primary used when we need to load a module and
      * the module doesn't exists in the application itself.
      *
-     * @param $module The module to check.
+     * @param string $module The module to check.
      *
      * @return array The config needed for the ModuleManager::load() function.
      */
