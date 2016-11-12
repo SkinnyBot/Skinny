@@ -8,7 +8,7 @@
 |:------:|:-------:|:-------:|:-------:|:------:|:------:|
 |[![Build Status](https://img.shields.io/travis/SkinnyBot/Skinny.svg?style=flat-square)](https://travis-ci.org/SkinnyBot/Skinny)|[![Scrutinizer](https://img.shields.io/scrutinizer/g/SkinnyBot/Skinny.svg?style=flat-square)](https://scrutinizer-ci.com/g/SkinnyBot/Skinny)|[![StyleCI](https://styleci.io/repos/73175729/shield)](https://styleci.io/repos/73175729)|[![Latest Stable Version](https://img.shields.io/packagist/v/SkinnyBot/Skinny.svg?style=flat-square)](https://packagist.org/packages/skinnybot/skinny)|[![Total Downloads](https://img.shields.io/packagist/dt/skinnybot/skinny.svg?style=flat-square)](https://packagist.org/packages/skinnybot/skinny)|[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/skinnybot/skinny)
 
-A simple bot in PHP using [DiscordPHP](https://github.com/teamreflex/DiscordPHP).
+A framework to create discord bot in PHP using [DiscordPHP](https://github.com/teamreflex/DiscordPHP).
 
 # Note
 This is the core of the Bot. The skeleton of the application can be found [there](https://github.com/SkinnyBot/Skinny-Skeleton).
