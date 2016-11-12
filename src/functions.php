@@ -83,5 +83,4 @@ if (!function_exists('pluginSplit')) {
 
         return [$plugin, $name];
     }
-
 }
