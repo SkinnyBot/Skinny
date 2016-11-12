@@ -23,14 +23,16 @@ If you just want to use and/or develop your own bot, you should use the [Skinny 
     - [The variable `$message`](#the-variable-message)
     - [The object `$wrapper`](#the-object-wrapper)
     - [The Module System](#the-module-system)
-    - [The Module Manager](#the-module-manager)
 - [Plugins](#plugins)
     - [Creating a Plugin with composer](#creating-a-plugin-with-composer)
     - [Creating a Plugin without composer](#creating-a-plugin-without-composer)
+- [Others](#others)
+    - [Core plugins list](#core-plugins-list)
 
 ### Core
 #### Creating news Modules
-The bot come with a Module system and a Module manager that allow you to create Modules for your custom commands.
+The bot come with a Module system and a Module manager that allow you to create Modules for your custom commands. Your module must implement the `Skinny\Module\ModuleInterface`.
+
 Here is the default template for a module, named `Basic` for example :
 
 **src/Module/Modules/Basic.php**
@@ -161,18 +163,8 @@ object(Skinny\Network\Wrapper) {
 As i said before, this bot implement a Module system. The Module system work like that in debug mode **only** :
 The Module system load the file's contents first, then use `preg_replace()` to replace the original class-name with a random one. After that, its create a copy and include it.
 
-#### The Module Manager
+When a message is triggered, the module system will do some tests on it to ensure it's a valid message, then it will dispath it into all the loaded modules.
 
-The Module manager is a module that allow to manage modules with command. That means you can code your own module and load/reload it without restarting the bot. Isn't that cool ?! :laughing:
-This module has the following command and it require to be admin of the bot by default :
-
-|Command|Description|Note|
-|------|-------|-------|
-|`!module load <module>`|Load the specified module.|Can not be used to load plugin in the fly at the moment.|
-|`!module unload <module>`|Unload the specified module.|Only usable in `debug` mode.|
-|`!module reload <module>`|Reload the specified module.|Only usable in `debug` mode.|
-|`!module time <module>`|Display the time from when the module is loaded.|Display style : `0 days, 1 hours, 38 minutes and 31 seconds`|
-|`!module loaded`|Show the list of the loaded modules.|E.g `Modules loaded : Basic, Module, Developer.`|
 
 ### Plugins
 Yes, you can create plugins for this bot. While i recommend to create a plugin using composer you can also create a plugin without using composer, it can be usefull when you develop a plugin. You can find the demo plugin named `Basic` [here](https://github.com/SkinnyBot/Basic).
@@ -247,6 +239,14 @@ Plugin::load('Basic');
 //Or if you're using a bootstrap file :
 Plugin::load('Basic', ['bootstrap' => true]);
 ```
+
+### Others
+
+#### Core plugins list
+* **[Module Plugin](https://github.com/SkinnyBot/Module)**
+The Module plugin is a module that allow you to manage modules with commands. Installed by default in the Skinny Skeleton.
+* **[Basic Plugin](https://github.com/SkinnyBot/Basic)**
+This plugin is primary used to show how to create plugin and for testing purpose. Installed by default in the Skinny Skeleton.
 
 
 
