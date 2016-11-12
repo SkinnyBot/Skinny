@@ -1,6 +1,6 @@
 {
     "name": "skinnybot/skinny",
-    "description": "A simple discord bot in PHP.",
+    "description": "A framework to create discord bot in PHP.",
     "homepage": "https://github.com/SkinnyBot/Skinny",
     "keywords": ["discord", "bot", "php", "discordphp", "botphp", "skinny"],
     "license": "MIT",
@@ -18,7 +18,7 @@
     "require": {
         "php": ">=5.6",
         "team-reflex/discord-php": "4.*",
-        "skinnybot/plugin-installer": "dev-master"
+        "skinnybot/plugin-installer": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
