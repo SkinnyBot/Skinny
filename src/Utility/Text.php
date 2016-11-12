@@ -1,27 +1,8 @@
 <?php
 namespace Skinny\Utility;
 
-use InvalidArgumentException;
-
 class Text
 {
-    /**
-     * Get a valuie between 2 string in a string.
-     *
-     * @param string $string The string to search for.
-     * @param string $left   Delimiter left.
-     * @param string $right  Delimiter right.
-     *
-     * @return string
-     */
-    public static function getBetween($string, $left, $right)
-    {
-        $start = stripos($string, $left) + strlen($left);
-        $length = stripos($string, $right, $start);
-
-        return substr($string, $start, $length - $start);
-    }
-
     /**
      * Tokenizes a string using $separator, ignoring any instance of $separator that appears between
      * $leftBound and $rightBound.
@@ -31,7 +12,7 @@ class Text
      * @param string $leftBound The left boundary to ignore separators in.
      * @param string $rightBound The right boundary to ignore separators in.
      *
-     * @return mixed Array of tokens in $data or original input if empty.
+     * @return array|string Array of tokens in $data or original input if empty.
      */
     public static function tokenize($data, $separator = ',', $leftBound = '(', $rightBound = ')')
     {
@@ -43,15 +24,15 @@ class Text
         $offset = 0;
         $buffer = '';
         $results = [];
-        $length = strlen($data);
+        $length = mb_strlen($data);
         $open = false;
 
         while ($offset <= $length) {
             $tmpOffset = -1;
             $offsets = [
-            strpos($data, $separator, $offset),
-            strpos($data, $leftBound, $offset),
-            strpos($data, $rightBound, $offset)
+                mb_strpos($data, $separator, $offset),
+                mb_strpos($data, $leftBound, $offset),
+                mb_strpos($data, $rightBound, $offset)
             ];
             for ($i = 0; $i < 3; $i++) {
                 if ($offsets[$i] !== false && ($offsets[$i] < $tmpOffset || $tmpOffset == -1)) {
@@ -59,22 +40,23 @@ class Text
                 }
             }
             if ($tmpOffset !== -1) {
-                $buffer .= substr($data, $offset, ($tmpOffset - $offset));
-                if (!$depth && $data{$tmpOffset} === $separator) {
+                $buffer .= mb_substr($data, $offset, ($tmpOffset - $offset));
+                $char = mb_substr($data, $tmpOffset, 1);
+                if (!$depth && $char === $separator) {
                     $results[] = $buffer;
                     $buffer = '';
                 } else {
-                    $buffer .= $data{$tmpOffset};
+                    $buffer .= $char;
                 }
                 if ($leftBound !== $rightBound) {
-                    if ($data{$tmpOffset} === $leftBound) {
+                    if ($char === $leftBound) {
                         $depth++;
                     }
-                    if ($data{$tmpOffset} === $rightBound) {
+                    if ($char === $rightBound) {
                         $depth--;
                     }
                 } else {
-                    if ($data{$tmpOffset} === $leftBound) {
+                    if ($char === $leftBound) {
                         if (!$open) {
                             $depth++;
                             $open = true;
@@ -85,7 +67,7 @@ class Text
                 }
                 $offset = ++$tmpOffset;
             } else {
-                $results[] = $buffer . substr($data, $offset);
+                $results[] = $buffer . mb_substr($data, $offset);
                 $offset = $length + 1;
             }
         }

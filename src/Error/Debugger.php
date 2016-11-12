@@ -1,4 +1,15 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
 namespace Skinny\Error;
 
 use Skinny\Utility\Hash;
@@ -17,7 +28,7 @@ class Debugger
      *
      * @var string
      */
-    protected $outputFormat = 'base';
+    protected $outputFormat = 'array';
 
     /**
      * Holds current output data when outputFormat is false.
@@ -25,28 +36,6 @@ class Debugger
      * @var string
      */
     protected $data = [];
-
-    /**
-     * Template used to generate the debug messages.
-     *
-     * @var array
-     */
-    protected $templates = [
-        'log' => [
-            'trace' => '{:reference} - {:path}, line {:line}',
-            'error' => "{:error} ({:code}): {:description} in [{:file}, line {:line}]"
-        ],
-        'txt' => [
-            'error' => "{:error}: {:code} :: {:description} on line {:line} of {:path}\n{:info}",
-            'code' => '',
-            'info' => ''
-        ],
-        'base' => [
-            'traceLine' => '{:reference} - {:path}, line {:line}',
-            'trace' => "Trace:\n{:trace}\n",
-            'context' => "Context:\n{:context}\n",
-        ]
-    ];
 
     /**
      * Returns a reference to the Debugger singleton object instance.
@@ -140,21 +129,8 @@ class Debugger
 
             if ($options['format'] === 'points' && $trace['file'] !== '[internal]') {
                 $back[] = ['file' => $trace['file'], 'line' => $trace['line']];
-            } elseif ($options['format'] === 'array') {
-                $back[] = $trace;
             } else {
-                if (isset($self->templates[$options['format']]['traceLine'])) {
-                    $tpl = $self->templates[$options['format']]['traceLine'];
-                } else {
-                    $tpl = $self->templates['base']['traceLine'];
-                }
-
-                $trace['path'] = static::trimPath($trace['file']);
-                $trace['reference'] = $reference;
-
-                unset($trace['object'], $trace['args']);
-
-                $back[] = Text::insert($tpl, $trace, ['before' => '{:', 'after' => '}']);
+                $back[] = $trace;
             }
         }
 
@@ -168,23 +144,10 @@ class Debugger
     /**
      * Converts a variable to a string for debug output.
      *
-     * *Note:* The following keys will have their contents
-     * replaced with `*****`:
-     *
-     * - password
-     * - login
-     * - host
-     * - database
-     * - port
-     * - prefix
-     * - schema
-     *
-     * This is done to protect database credentials, which could be accidentally
-     * shown in an error message if CakePHP is deployed in development mode.
-     *
      * @param string $var Variable to convert
      * @param int $depth The depth to output to. Defaults to 3.
-     * @return string Variable as a formatted string
+     *
+     * @return string Variable as a formatted string.
      */
     public static function exportVar($var, $depth = 3)
     {
@@ -292,16 +255,6 @@ class Debugger
 
     /**
      * Export an array type object. Filters out keys used in datasource configuration.
-     *
-     * The following keys are replaced with ***'s
-     *
-     * - password
-     * - login
-     * - host
-     * - database
-     * - port
-     * - prefix
-     * - schema
      *
      * @param array $var The array to export.
      * @param int $depth The current depth, used for recursion tracking.

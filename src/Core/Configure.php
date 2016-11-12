@@ -1,4 +1,15 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
 namespace Skinny\Core;
 
 use Skinny\Core\Configure\ConfigEngineInterface;
@@ -376,12 +387,14 @@ class Configure
      * Verifies that the application's token value has been changed from the default value.
      *
      * @return void
+     *
+     * @throws \RuntimeException When the Discord.token configuration is not set.
      */
     public static function checkTokenKey()
     {
         if (Configure::read('Discord.token') === 'insert-your-token-here') {
-            trigger_error(sprintf('Please change the value of %s in %s to a valid token.',
-                '\'Discord.token\'', ROOT . '/config/app.php'), E_USER_NOTICE);
+            throw new RuntimeException(sprintf('Please change the value of %s in %s to a valid token.',
+                '\'Discord.token\'', ROOT . '/config/config.php'));
         }
     }
 

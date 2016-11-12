@@ -1,6 +1,19 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
 namespace Skinny\Utility;
 
+use ArrayAccess;
+use InvalidArgumentException;
 use Skinny\Utility\Text;
 
 class Hash
@@ -41,12 +54,10 @@ class Hash
 
         foreach ($data as $k => $v) {
             if (static::matchToken($k, $token)) {
-                if ($conditions && static::matches($v, $conditions)) {
-                    $data[$k] = array_merge($v, $values);
-                    continue;
-                }
-                if (!$conditions) {
-                    $data[$k] = static::insert($v, $nextPath, $values);
+                if (!$conditions || static::matches($v, $conditions)) {
+                    $data[$k] = $nextPath
+                        ? static::insert($v, $nextPath, $values)
+                        : array_merge($v, (array)$values);
                 }
             }
         }
@@ -59,7 +70,8 @@ class Hash
      * Does not support the full dot notation feature set,
      * but is faster for simple read operations.
      *
-     * @param array $data Array of data to operate on.
+     * @param array|\ArrayAccess $data Array of data or object implementing
+     *   \ArrayAccess interface to operate on.
      * @param string|array $path The path being searched for. Either a dot
      *   separated string, or an array of path segments.
      * @param mixed $default The return value when the path does not exist
@@ -68,9 +80,15 @@ class Hash
      *
      * @return mixed The value fetched from the array, or null.
      */
-    public static function get(array $data, $path, $default = null)
+    public static function get($data, $path, $default = null)
     {
-        if (empty($data)) {
+        if (!(is_array($data) || $data instanceof ArrayAccess)) {
+            throw new InvalidArgumentException(
+                'Invalid data type, must be an array or \ArrayAccess instance.'
+            );
+        }
+
+        if (empty($data) || $path === null) {
             return $default;
         }
 
@@ -78,7 +96,7 @@ class Hash
             $parts = explode('.', $path);
         } else {
             if (!is_array($path)) {
-                throw new \InvalidArgumentException(sprintf(
+                throw new InvalidArgumentException(sprintf(
                     'Invalid Parameter %s, should be dot separated path or array.',
                     $path
                 ));
@@ -97,7 +115,7 @@ class Hash
                     $data[$parts[0]][$parts[1]][$parts[2]] : $default;
             default:
                 foreach ($parts as $key) {
-                    if (is_array($data) && isset($data[$key])) {
+                    if ((is_array($data) || $data instanceof ArrayAccess) && isset($data[$key])) {
                         $data = $data[$key];
                     } else {
                         return $default;
@@ -113,8 +131,9 @@ class Hash
      * You can use `{n}` and `{s}` to remove multiple elements
      * from $data.
      *
-     * @param array $data The data to operate on.
+     * @param array $data The data to operate on
      * @param string $path A path expression to use to remove.
+     *
      * @return array The modified array.
      */
     public static function remove(array $data, $path)
@@ -142,11 +161,17 @@ class Hash
         foreach ($data as $k => $v) {
             $match = static::matchToken($k, $token);
             if ($match && is_array($v)) {
-                if ($conditions && static::matches($v, $conditions)) {
-                    unset($data[$k]);
-                    continue;
+                if ($conditions) {
+                    if (static::matches($v, $conditions)) {
+                        if ($nextPath) {
+                            $data[$k] = static::remove($v, $nextPath);
+                        } else {
+                            unset($data[$k]);
+                        }
+                    }
+                } else {
+                    $data[$k] = static::remove($v, $nextPath);
                 }
-                $data[$k] = static::remove($v, $nextPath);
                 if (empty($data[$k])) {
                     unset($data[$k]);
                 }
@@ -188,6 +213,48 @@ class Hash
 
             $stack = [[$child, &$result]];
             static::mergeHelper($stack, $result);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Collapses a multi-dimensional array into a single dimension, using a delimited array path for
+     * each array element's key, i.e. [['Foo' => ['Bar' => 'Far']]] becomes
+     * ['0.Foo.Bar' => 'Far'].)
+     *
+     * @param array $data Array to flatten
+     * @param string $separator String used to separate array key elements in a path, defaults to '.'
+     *
+     * @return array
+     */
+    public static function flatten(array $data, $separator = '.')
+    {
+        $result = [];
+        $stack = [];
+        $path = null;
+
+        reset($data);
+        while (!empty($data)) {
+            $key = key($data);
+            $element = $data[$key];
+            unset($data[$key]);
+
+            if (is_array($element) && !empty($element)) {
+                if (!empty($data)) {
+                    $stack[] = [$data, $path];
+                }
+                $data = $element;
+                reset($data);
+                $path .= $key . $separator;
+            } else {
+                $result[$path . $key] = $element;
+            }
+
+            if (empty($data) && !empty($stack)) {
+                list($data, $path) = array_pop($stack);
+                reset($data);
+            }
         }
 
         return $result;
@@ -269,6 +336,7 @@ class Hash
      *
      * @param array $data Array of data to match.
      * @param string $selector The patterns to match.
+     *
      * @return bool Fitness of expression.
      */
     protected static function matches(array $data, $selector)
