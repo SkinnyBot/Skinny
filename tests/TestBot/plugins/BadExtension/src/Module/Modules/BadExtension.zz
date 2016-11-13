@@ -1,10 +1,10 @@
 <?php
-namespace SkinnyTest\TestBot\Module\Modules;
+namespace BadExtension\Module\Modules;
 
 use Skinny\Module\ModuleInterface;
 use Skinny\Network\Wrapper;
 
-class Basic implements ModuleInterface
+class BadExtension implements ModuleInterface
 {
 
     /**
@@ -29,8 +29,6 @@ class Basic implements ModuleInterface
      */
     public function onPrivateMessage(Wrapper $wrapper, $message)
     {
-        //Used in ModuleManagerTest::testCallMagicWithPriorityAndWithStop()
-        echo 'should not be printed';
     }
 
     /**
@@ -45,7 +43,7 @@ class Basic implements ModuleInterface
     {
         //Handle the command.
         switch ($message['command']) {
-            case 'say':
+            case 'dev':
                 $wrapper->Channel->sendMessage($message['parts'][1]);
 
                 break;

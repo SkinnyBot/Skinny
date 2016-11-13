@@ -1,10 +1,10 @@
 <?php
-namespace SkinnyTest\TestBot\Module\Modules;
+namespace CallMagic\Module\Modules;
 
 use Skinny\Module\ModuleInterface;
 use Skinny\Network\Wrapper;
 
-class Basic implements ModuleInterface
+class CallMagic implements ModuleInterface
 {
 
     /**
@@ -17,6 +17,7 @@ class Basic implements ModuleInterface
      */
     public function onChannelMessage(Wrapper $wrapper, $message)
     {
+        echo $message['raw'];
     }
 
     /**
@@ -29,8 +30,8 @@ class Basic implements ModuleInterface
      */
     public function onPrivateMessage(Wrapper $wrapper, $message)
     {
-        //Used in ModuleManagerTest::testCallMagicWithPriorityAndWithStop()
-        echo 'should not be printed';
+        echo 'testing the return -1';
+        return -1;
     }
 
     /**
@@ -43,12 +44,21 @@ class Basic implements ModuleInterface
      */
     public function onCommandMessage(Wrapper $wrapper, $message)
     {
-        //Handle the command.
-        switch ($message['command']) {
-            case 'say':
-                $wrapper->Channel->sendMessage($message['parts'][1]);
+    }
 
-                break;
+    /**
+     * {@inheritDoc}
+     *
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
+     * @param array $message The message array.
+     *
+     * @return void
+     */
+    public function onPrefixMessage($prefix, Wrapper $wrapper, $message)
+    {
+        if ($prefix === 'Testing PrefixArgument') {
+            echo 'Testing PrefixArgument OK';
+            return -1;
         }
     }
 }

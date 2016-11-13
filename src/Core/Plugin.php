@@ -293,6 +293,24 @@ class Plugin
     }
 
     /**
+     * Returns the plugin configuration if the plugin $plugin is already loaded.If plugin is null,
+     * it will return a list of all loaded plugins with their configuration.
+     *
+     * @param string|null $plugin Plugin name.
+     *
+     * @return array The plugin configuration if $plugin is already loaded. If $plugin is null, returns
+     *   a list of plugins that have been loaded with their configuration.
+     */
+    public static function loadedWithValues($plugin = null)
+    {
+        if ($plugin !== null && isset(static::$plugins[$plugin])) {
+            return static::$plugins[$plugin];
+        }
+
+        return static::$plugins;
+    }
+
+    /**
      * Forgets a loaded plugin or all of them if first parameter is null.
      *
      * @param string|null $plugin Name of the plugin to forget.

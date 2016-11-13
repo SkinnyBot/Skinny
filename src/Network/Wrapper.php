@@ -57,9 +57,12 @@ class Wrapper extends Singleton
         $this->ModuleManager = $moduleManager;
         $this->Message = $message;
         $this->Channel = $message->channel;
-        $this->Guild = $message->channel->guild;
 
-        if (is_object($message->channel->guild->members)) {
+        if (isset($message->channel->guild) && is_object($message->channel->guild)) {
+            $this->Guild = $message->channel->guild;
+        }
+
+        if (isset($message->channel->guild->members) && is_object($message->channel->guild->members)) {
             $this->Members = $message->channel->guild->members;
         }
 
