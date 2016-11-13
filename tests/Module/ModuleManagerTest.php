@@ -33,14 +33,14 @@ class ModuleManagerTest extends TestCase
             'Basic',
             'Test'
         ];
-        $this->assertEquals($expected, $ModuleManager->getLoadedModules());
+        $this->assertArraySubset($expected, $ModuleManager->getLoadedModules());
 
         $ModuleManager = new ModuleManager(['Test']);
         $expected = [
             'Test',
             'Basic'
         ];
-        $this->assertEquals($expected, $ModuleManager->getLoadedModules());
+        $this->assertArraySubset($expected, $ModuleManager->getLoadedModules());
     }
 
     /**
