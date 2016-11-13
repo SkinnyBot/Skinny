@@ -282,9 +282,7 @@ class ModuleManager implements ArrayAccess, Countable
             $temp = [];
             $temp[$module] = $new;
             $this->loadedModules = array_merge($this->loadedModules, $temp);
-            //$this->loadedModules[$module] = $new;
         }
-        //debug($this->loadedModules);
 
         //Return the message Loaded.
         return 'L';
