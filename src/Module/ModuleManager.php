@@ -8,6 +8,7 @@ use Exception;
 use RuntimeException;
 use Skinny\Core\Configure;
 use Skinny\Core\Plugin;
+use Skinny\Module\Exception\NotImplementedException;
 use Skinny\Utility\Inflector;
 
 class ModuleManager implements ArrayAccess, Countable
@@ -216,44 +217,52 @@ class ModuleManager implements ArrayAccess, Countable
             return 'AL';
         }
 
+        if ($config['plugin'] != false) {
+            $config['pathDir'] = Plugin::classPath($config['plugin']) . 'Module' . DS . 'Modules';
+        }
+
         //Check if the module exist in the plugin list.
         $config = array_merge($config, $this->checkPlugins($module));
-
 
         if (!file_exists($config['pathDir'] . DS . $module . '.php')) {
             //Return NotFound.
             return 'NF';
         }
 
-        //Check if this class already exists.
         $path = $config['pathDir'] . DS . $module . '.php';
         $className = Configure::read('App.namespace') . DS . 'Module' . DS . 'Modules' . DS . $module;
 
         if (Configure::read('debug') === false) {
             require_once $path;
         } else {
-            //Here, we load the file's contents first, then use preg_replace() to replace
-            //the original class-name with a random one. After that, we create a copy and include it.
             $newClass = $module . '_' . md5(mt_rand() . time());
             $contents = preg_replace(
-                "/(class[\s]+?)" . $module . "([\s]+?implements[\s]+?ModuleInterface[\s]+?{)/",
-                "\\1" . $newClass . "\\2",
+                '/(class[\s]+?)' . $module . '([\s]+?implements[\s]+?ModuleInterface[\s]+?{)/',
+                '\\1' . $newClass . '\\2',
                 file_get_contents($path)
             );
 
             $name = tempnam(TMP_MODULE_DIR, $module . '_');
             file_put_contents($name, $contents);
 
-            require_once $name;
-            unlink($name);
-
             $namespace = ($config['plugin'] !== false) ? $config['plugin'] : Configure::read('App.namespace');
             $className = $namespace . DS . 'Module' . DS . 'Modules' . DS . $newClass;
+
+            if (!preg_match('/([\s]+?implements[\s]+?ModuleInterface)/', $contents)) {
+                throw new NotImplementedException(['function' => 'ModuleManager::load()', 'class' => $className]);
+            }
+
+            require_once $name;
+            unlink($name);
         }
 
         $className = str_replace('/', '\\', rtrim($className, '\\'));
-
         $objectModule = new $className();
+
+        if (!$objectModule instanceof ModuleInterface) {
+            throw new NotImplementedException(['function' => 'ModuleManager::load()', 'class' => $className]);
+        }
+
         $new = [
             'object' => $objectModule,
             'loaded' => time(),
@@ -261,20 +270,11 @@ class ModuleManager implements ArrayAccess, Countable
             'pluginName' => ($config['plugin'] !== false) ? $config['plugin'] : '',
             'pluginPath' => $config['pathDir'],
             'name' => $className,
-            'modified' => (isset($contents) ? true : false)
+            'modified' => isset($contents) ? true : false
         ];
 
-        //Check if this module implements our default interface.
-        if (!$objectModule instanceof ModuleInterface) {
-            throw new RuntimeException(
-                sprintf('ModuleManager::load() expects "%s" to be an instance of ModuleInterface.', $className)
-            );
-        }
 
-        //Prioritize.
         if (in_array($module, $this->priorityList)) {
-            //So, here we reverse our list of loaded modules, so that prioritized modules will be the last ones,
-            //then, we add the current prioritized modules to the array and reverse it again.
             $temp = array_reverse($this->loadedModules, true);
             $temp[$module] = $new;
             $this->loadedModules = array_reverse($temp, true);
@@ -396,7 +396,7 @@ class ModuleManager implements ArrayAccess, Countable
     }
 
     /**
-     * Returns instance of a loaded module if we have it, or false if we don't have it.
+     * Returns the module if we have it, or false if we don't have it.
      *
      * @param string $module The module to get.
      *
@@ -410,7 +410,7 @@ class ModuleManager implements ArrayAccess, Countable
             return false;
         }
 
-        return $this->loadedModules[$module]['object'];
+        return $this->loadedModules[$module];
     }
 
     /**
@@ -435,7 +435,7 @@ class ModuleManager implements ArrayAccess, Countable
      *
      * @throws \RuntimeException
      *
-     * @return bool
+     * @return void
      */
     public function offsetSet($offset, $module)
     {
@@ -462,8 +462,6 @@ class ModuleManager implements ArrayAccess, Countable
         } else {
             $this->loadedModules[$offset] = $newModule;
         }
-
-        return true;
     }
 
     /**
@@ -471,16 +469,14 @@ class ModuleManager implements ArrayAccess, Countable
      *
      * @param string $module The module to unlod.
      *
-     * @return bool
+     * @return void
      */
     public function offsetUnset($module)
     {
-        if (!isset($this->loadedModules[$module])) {
-            return true;
+        $module = Inflector::camelize($module);
+
+        if (isset($this->loadedModules[$module])) {
+            unset($this->loadedModules[$module]);
         }
-
-        unset($this->loadedModules[$module]);
-
-        return true;
     }
 }

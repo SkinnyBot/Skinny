@@ -1,12 +1,11 @@
 <?php
-namespace SkinnyTest\TestBot\Module\Modules;
+namespace FakeModule\Module\Modules;
 
-use Skinny\Module\ModuleInterface;
 use Skinny\Network\Wrapper;
+use Skinny\Module\ModuleInterface;
 
-class Basic implements ModuleInterface
+class FakeModule
 {
-
     /**
      * {@inheritDoc}
      *
@@ -29,8 +28,6 @@ class Basic implements ModuleInterface
      */
     public function onPrivateMessage(Wrapper $wrapper, $message)
     {
-        //Used in ModuleManagerTest::testCallMagicWithPriorityAndWithStop()
-        echo 'should not be printed';
     }
 
     /**
@@ -43,12 +40,5 @@ class Basic implements ModuleInterface
      */
     public function onCommandMessage(Wrapper $wrapper, $message)
     {
-        //Handle the command.
-        switch ($message['command']) {
-            case 'say':
-                $wrapper->Channel->sendMessage($message['parts'][1]);
-
-                break;
-        }
     }
 }

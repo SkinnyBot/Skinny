@@ -4,11 +4,23 @@ namespace SkinnyTest\Module;
 use Skinny\Core\Configure;
 use Skinny\Core\Plugin;
 use Skinny\Module\ModuleManager;
+use Skinny\Network\Wrapper;
 use Skinny\TestSuite\TestCase;
 use SkinnyTest\Lib\Utility;
 
 class ModuleManagerTest extends TestCase
 {
+    /**
+     * tearDown
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        Plugin::unload();
+        Configure::write('plugins', []);
+    }
+
     /**
      * testPriorityList method
      *
@@ -44,6 +56,45 @@ class ModuleManagerTest extends TestCase
     }
 
     /**
+     * testLoadFakeModule method
+     *
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage ModuleManager::load() expects "FakeModule/Module/Modules/FakeModule_
+     *
+     * @return void
+     */
+    public function testLoadFakeModule()
+    {
+        $ModuleManager = new ModuleManager();
+        Plugin::load('FakeModule');
+        $result = $ModuleManager->load('FakeModule', ['plugin' => 'FakeModule']);
+    }
+
+    /**
+     * testLoadNotExistModule method
+     *
+     * @return void
+     */
+    public function testLoadNotExistModule()
+    {
+        $ModuleManager = new ModuleManager();
+        $result = $ModuleManager->load('DoesntExist');
+        $this->assertSame('NF', $result);
+    }
+
+    /**
+     * testLoadAlreadyLoaded method
+     *
+     * @return void
+     */
+    public function testLoadAlreadyLoaded()
+    {
+        $ModuleManager = new ModuleManager();
+        $result = $ModuleManager->load('Basic');
+        $this->assertSame('AL', $result);
+    }
+
+    /**
      * testUnload method
      *
      * @return void
@@ -74,13 +125,13 @@ class ModuleManagerTest extends TestCase
     public function testReload()
     {
         $ModuleManager = new ModuleManager();
-        $oldName = Utility::callProtectedProperty($ModuleManager, 'loadedModules');
+        $oldName = $ModuleManager['Basic']['name'];
 
         $result = $ModuleManager->reload('Basic');
         $this->assertSame('L', $result);
 
-        $name = Utility::callProtectedProperty($ModuleManager, 'loadedModules');
-        $this->assertNotSame($oldName['Basic']['name'], $name['Basic']['name']);
+        $name = $ModuleManager['Basic']['name'];
+        $this->assertNotSame($oldName, $name);
     }
 
     /**
@@ -94,6 +145,26 @@ class ModuleManagerTest extends TestCase
 
         $result = $ModuleManager->reload('DoesntExist');
         $this->assertSame('AU', $result);
+    }
+
+    /**
+     * testReloadPlugin method
+     *
+     * @return void
+     */
+    public function testReloadPlugin()
+    {
+        Plugin::load('Developer');
+        Configure::write('plugins.Developer', APP);
+
+        $ModuleManager = new ModuleManager();
+        $oldName = $ModuleManager['Developer']['name'];
+
+        $result = $ModuleManager->reload('Developer');
+        $this->assertSame('L', $result);
+
+        $name = $ModuleManager['Developer']['name'];
+        $this->assertNotSame($oldName, $name);
     }
 
     /**
@@ -149,7 +220,7 @@ class ModuleManagerTest extends TestCase
     public function testCount()
     {
         $ModuleManager = new ModuleManager();
-        $result = $ModuleManager->count();
+        $result = count($ModuleManager);
         $this->assertEquals(2, $result);
     }
 
@@ -162,13 +233,13 @@ class ModuleManagerTest extends TestCase
     {
         $ModuleManager = new ModuleManager();
 
-        $result = $ModuleManager->offsetGet('Basic');
+        $result = $ModuleManager['Basic']['object'];
         $this->assertInstanceOf(
-            Utility::callProtectedProperty($ModuleManager, 'loadedModules')['Basic']['name'],
+            $ModuleManager['Basic']['name'],
             $result
         );
 
-        $result = $ModuleManager->offsetGet('DoesntExist');
+        $result = $ModuleManager['DoesntExist'];
         $this->assertFalse($result);
     }
 
@@ -181,10 +252,10 @@ class ModuleManagerTest extends TestCase
     {
         $ModuleManager = new ModuleManager();
 
-        $result = $ModuleManager->offsetExists('Basic');
+        $result = isset($ModuleManager['Basic']);
         $this->assertTrue($result);
 
-        $result = $ModuleManager->offsetExists('DoesntExist');
+        $result = isset($ModuleManager['DoesntExist']);
         $this->assertFalse($result);
     }
 
@@ -199,9 +270,7 @@ class ModuleManagerTest extends TestCase
         $ModuleManager->unload('Test');
 
         $module = new \SkinnyTest\TestBot\Module\Modules\Test();
-
-        $result = $ModuleManager->offsetSet('TestModule', $module);
-        $this->assertTrue($result);
+        $ModuleManager['TestModule']= $module;
 
         $expected = [
             'object' => $module,
@@ -211,7 +280,7 @@ class ModuleManagerTest extends TestCase
             'name' => 'SkinnyTest\TestBot\Module\Modules\Test',
             'modified' => false
         ];
-        $module = Utility::callProtectedProperty($ModuleManager, 'loadedModules')['TestModule'];
+        $module = $ModuleManager['TestModule'];
         unset($module['pluginPath']);
 
         $this->assertSame($expected, $module);
@@ -229,7 +298,7 @@ class ModuleManagerTest extends TestCase
     public function testOffsetSetNoModuleInstance()
     {
         $ModuleManager = new ModuleManager();
-        $ModuleManager->offsetSet('TestModule', 'Not an object');
+        $ModuleManager['TestModule'] = 'Not an object';
     }
 
     /**
@@ -241,29 +310,133 @@ class ModuleManagerTest extends TestCase
     {
         $ModuleManager = new ModuleManager(['PriorityModule']);
         $module = new \SkinnyTest\TestBot\Module\Modules\Test();
+        $ModuleManager['PriorityModule']= $module;
 
-        $result = $ModuleManager->offsetSet('PriorityModule', $module);
-        $this->assertTrue($result);
-
-        $modules = Utility::callProtectedProperty($ModuleManager, 'loadedModules');
+        $modules = $ModuleManager->getLoadedModules();
         $expected = [
             0 => 'PriorityModule',
             1 => 'Basic',
             2 => 'Test'
         ];
 
-        $this->assertEquals($expected, array_keys($modules));
+        $this->assertEquals($expected, $modules);
     }
 
     /**
-     * testOffsetSet method
+     * testOffsetUnset method
      *
      * @return void
      */
     public function testOffsetUnset()
     {
         $ModuleManager = new ModuleManager();
-        $this->assertTrue($ModuleManager->offsetUnset('Basic'));
-        $this->assertTrue($ModuleManager->offsetUnset('Basic'));
+        unset($ModuleManager['Basic']);
+        $modules = $ModuleManager->getLoadedModules();
+
+        $this->assertArrayNotHasKey('Basic', $modules);
+    }
+
+    /**
+     * testCheckPlugins method
+     *
+     * @return void
+     */
+    public function testCheckPlugins()
+    {
+        Plugin::load('Developer');
+        Configure::write('plugins.Developer', APP);
+
+        $ModuleManager = new ModuleManager();
+        $result = Utility::callProtectedMethod($ModuleManager, 'checkPlugins', ['Developer']);
+
+        $this->assertSame(['pathDir', 'plugin'], array_keys($result));
+        $this->assertContains('Skinny/tests/TestBot/plugins/Developer/src/Module/Modules', $result['pathDir']);
+    }
+
+    /**
+     * testCheckPluginsBadExtension method
+     *
+     * @return void
+     */
+    public function testCheckPluginsBadExtension()
+    {
+        Plugin::load('BadExtension');
+        Configure::write('plugins.BadExtension', APP);
+
+        $ModuleManager = new ModuleManager();
+        $result = Utility::callProtectedMethod($ModuleManager, 'checkPlugins', ['BadExtension']);
+        $this->assertEmpty($result);
+    }
+
+    /**
+     * testCallMagic method
+     *
+     * @return void
+     */
+    public function testCallMagic()
+    {
+        Plugin::load('CallMagic');
+        Configure::write('plugins.CallMagic', APP);
+
+        $ModuleManager = new ModuleManager();
+        $Message = $this->createMock('\Discord\Parts\Channel\Message');
+        $wrapper = Wrapper::getInstance()->setInstances($Message, $ModuleManager);
+
+        $message = 'magic method onCommandMessage success';
+
+        $result = $ModuleManager->onChannelMessage($wrapper, ['raw' => $message]);
+        $this->expectOutputString($message);
+    }
+
+    /**
+     * testCallMagicWithPriorityAndWithStop method
+     *
+     * @return void
+     */
+    public function testCallMagicWithPriorityAndWithStop()
+    {
+        Plugin::load('CallMagic');
+        Configure::write('plugins.CallMagic', APP);
+
+        $ModuleManager = new ModuleManager(['CallMagic']);
+        $Message = $this->createMock('\Discord\Parts\Channel\Message');
+        $wrapper = Wrapper::getInstance()->setInstances($Message, $ModuleManager);
+
+        $result = $ModuleManager->onPrivateMessage($wrapper, []);
+        $this->expectOutputString('testing the return -1');
+    }
+
+    /**
+     * testCallMagicBadMethod method
+     *
+     * @return void
+     */
+    public function testCallMagicBadMethod()
+    {
+        $ModuleManager = new ModuleManager();
+        $Message = $this->createMock('\Discord\Parts\Channel\Message');
+        $wrapper = Wrapper::getInstance()->setInstances($Message, $ModuleManager);
+
+        $result = $ModuleManager->thisMethodDoesntExist($wrapper, []);
+        $this->assertTrue($result);
+    }
+
+    /**
+     * testCallMagicWithPrefixArgument method
+     *
+     * @return void
+     */
+    public function testCallMagicWithPrefixArgument()
+    {
+        Plugin::load('CallMagic');
+        Configure::write('plugins.CallMagic', APP);
+
+        $ModuleManager = new ModuleManager();
+        $ModuleManager->addPrefixArgument('Testing PrefixArgument');
+        $Message = $this->createMock('\Discord\Parts\Channel\Message');
+        $wrapper = Wrapper::getInstance()->setInstances($Message, $ModuleManager);
+
+        $result = $ModuleManager->onPrefixMessage($wrapper, []);
+        $this->expectOutputString('Testing PrefixArgument OK');
     }
 }
