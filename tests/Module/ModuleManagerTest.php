@@ -40,7 +40,7 @@ class ModuleManagerTest extends TestCase
             'Test',
             'Basic'
         ];
-        $this->assertArraySubset($expected, $ModuleManager->getLoadedModules());
+        $this->assertSame($expected, $ModuleManager->getLoadedModules());
     }
 
     /**
