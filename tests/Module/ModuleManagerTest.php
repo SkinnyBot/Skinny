@@ -33,14 +33,14 @@ class ModuleManagerTest extends TestCase
             'Basic',
             'Test'
         ];
-        $this->assertSame($expected, $ModuleManager->getLoadedModules());
+        $this->assertEquals($expected, $ModuleManager->getLoadedModules());
 
         $ModuleManager = new ModuleManager(['Test']);
         $expected = [
             'Test',
             'Basic'
         ];
-        $this->assertSame($expected, $ModuleManager->getLoadedModules());
+        $this->assertEquals($expected, $ModuleManager->getLoadedModules());
     }
 
     /**
@@ -106,7 +106,7 @@ class ModuleManagerTest extends TestCase
             'Basic',
             'Test'
         ];
-        $this->assertSame($expected, $ModuleManager->getLoadedModules());
+        $this->assertEquals($expected, $ModuleManager->getLoadedModules());
 
         $result = $ModuleManager->unload('Basic');
         $this->assertSame('U', $result);
@@ -314,9 +314,9 @@ class ModuleManagerTest extends TestCase
 
         $modules = $ModuleManager->getLoadedModules();
         $expected = [
-            0 => 'PriorityModule',
-            1 => 'Basic',
-            2 => 'Test'
+            'PriorityModule',
+            'Basic',
+            'Test'
         ];
 
         $this->assertEquals($expected, $modules);
