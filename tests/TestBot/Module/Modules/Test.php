@@ -1,11 +1,10 @@
 <?php
-namespace Basic\Module\Modules;
+namespace SkinnyTest\TestBot\Module\Modules;
 
-use DateTime;
 use Skinny\Module\ModuleInterface;
 use Skinny\Network\Wrapper;
 
-class Basic implements ModuleInterface
+class Test implements ModuleInterface
 {
 
     /**
@@ -44,25 +43,8 @@ class Basic implements ModuleInterface
     {
         //Handle the command.
         switch ($message['command']) {
-            case 'say':
+            case 'test':
                 $wrapper->Channel->sendMessage($message['parts'][1]);
-
-                break;
-
-            case 'info':
-                $wrapper->Message->reply(
-                    'I\'m open-source! You can find me on GitHub : https://github.com/SkinnyBot/Skinny .'
-                );
-
-                break;
-
-            case 'time':
-                $seconds = floor(microtime(true) - TIME_START);
-                $start = new DateTime("@0");
-                $end = new DateTime("@$seconds");
-                $wrapper->Message->reply(
-                    'I\'m running since ' . $start->diff($end)->format('%a days, %h hours, %i minutes and %s seconds.')
-                );
 
                 break;
         }

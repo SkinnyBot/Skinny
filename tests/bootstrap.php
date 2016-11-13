@@ -22,3 +22,9 @@ define('TMP_MODULE_DIR', TMP . 'Modules');
 define('SKINNY_PATH', ROOT . DS);
 
 Configure::write('debug', true);
+Configure::write('App', [
+    'namespace' => 'SkinnyTest\TestBot',
+    'paths' => [
+        'plugins' => [APP . 'plugins' . DS]
+    ]
+]);
