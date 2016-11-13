@@ -107,13 +107,11 @@ class ModuleManager implements ArrayAccess, Countable
      *
      * @param array $argument The arguments to add.
      *
-     * @return bool
+     * @return void
      */
     public function addPrefixArgument($argument)
     {
         $this->prefixArgument = $argument;
-
-        return true;
     }
 
     /**
@@ -450,6 +448,9 @@ class ModuleManager implements ArrayAccess, Countable
         $newModule = [
             'object' => $module,
             'loaded' => time(),
+            'plugin' => false,
+            'pluginName' => '',
+            'pluginPath' => MODULE_DIR,
             'name' => get_class($module),
             'modified' => false
         ];

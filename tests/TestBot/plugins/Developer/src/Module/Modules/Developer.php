@@ -1,10 +1,10 @@
 <?php
-namespace SkinnyTest\TestBot\Module\Modules;
+namespace Developer\Module\Modules;
 
 use Skinny\Module\ModuleInterface;
 use Skinny\Network\Wrapper;
 
-class Basic implements ModuleInterface
+class Developer implements ModuleInterface
 {
 
     /**
@@ -43,7 +43,7 @@ class Basic implements ModuleInterface
     {
         //Handle the command.
         switch ($message['command']) {
-            case 'say':
+            case 'dev':
                 $wrapper->Channel->sendMessage($message['parts'][1]);
 
                 break;

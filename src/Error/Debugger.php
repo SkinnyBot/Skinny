@@ -179,7 +179,7 @@ class Debugger
 
                 return "'" . $var . "'";
             case 'array':
-                return static::array($var, $depth - 1, $indent + 1);
+                return static::arrayExport($var, $depth - 1, $indent + 1);
             case 'resource':
                 return strtolower(gettype($var));
             case 'null':
@@ -213,7 +213,7 @@ class Debugger
         if ($depth > 0 && method_exists($var, '__debugInfo')) {
             try {
                 return $out . "\n" .
-                substr(static::array($var->__debugInfo(), $depth - 1, $indent), 1, -1) .
+                substr(static::arrayExport($var->__debugInfo(), $depth - 1, $indent), 1, -1) .
                 $end . '}';
             } catch (Exception $e) {
                 return $out . "\n(unable to export object)\n }";
@@ -262,7 +262,7 @@ class Debugger
      *
      * @return string Exported array.
      */
-    protected static function array(array $var, $depth, $indent)
+    protected static function arrayExport(array $var, $depth, $indent)
     {
         $out = "[";
         $break = $end = null;
