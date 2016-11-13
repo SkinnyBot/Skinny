@@ -21,6 +21,15 @@ class Utility
         return $method->invokeArgs($obj, $args);
     }
 
+    /**
+     * Call a protected property and return his value.
+     *
+     * @param object $obj  The instance of the object.
+     * @param string $name The protected method to call.
+     * @param array  $args The arguments to pass to the method.
+     *
+     * @return mixed
+     */
     public static function callProtectedProperty($obj, $name, array $args = [])
     {
         $class = new \ReflectionClass($obj);

@@ -448,6 +448,9 @@ class ModuleManager implements ArrayAccess, Countable
         $newModule = [
             'object' => $module,
             'loaded' => time(),
+            'plugin' => false,
+            'pluginName' => '',
+            'pluginPath' => MODULE_DIR,
             'name' => get_class($module),
             'modified' => false
         ];

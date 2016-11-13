@@ -1,5 +1,4 @@
 <?php
-
 use Skinny\Core\Configure;
 
 /**
