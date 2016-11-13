@@ -33,7 +33,7 @@ class ModuleManagerTest extends TestCase
             'Basic',
             'Test'
         ];
-        $this->assertTrue($expected == $ModuleManager->getLoadedModules());
+        $this->assertSame($expected, $ModuleManager->getLoadedModules());
 
         $ModuleManager = new ModuleManager(['Test']);
         $expected = [

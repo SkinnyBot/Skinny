@@ -275,12 +275,16 @@ class ModuleManager implements ArrayAccess, Countable
 
 
         if (in_array($module, $this->priorityList)) {
-            $temp = array_reverse($this->loadedModules, true);
+            $temp = array_reverse($this->loadedModules);
             $temp[$module] = $new;
-            $this->loadedModules = array_reverse($temp, true);
+            $this->loadedModules = array_reverse($temp);
         } else {
-            $this->loadedModules[$module] = $new;
+            $temp = [];
+            $temp[$module] = $new;
+            $this->loadedModules = array_merge($this->loadedModules, $temp);
+            //$this->loadedModules[$module] = $new;
         }
+        //debug($this->loadedModules);
 
         //Return the message Loaded.
         return 'L';
