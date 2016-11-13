@@ -13,7 +13,7 @@ class Utility
      *
      * @return mixed
      */
-    public function callProtectedMethod($obj, $name, array $args)
+    public static function callProtectedMethod($obj, $name, array $args)
     {
         $class = new \ReflectionClass($obj);
         $method = $class->getMethod($name);
