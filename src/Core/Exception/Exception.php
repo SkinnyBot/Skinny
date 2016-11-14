@@ -30,13 +30,6 @@ class Exception extends \RuntimeException
     protected $messageTemplate = '';
 
     /**
-     * Array of headers to be passed to \Skinny\Network\Response::header()
-     *
-     * @var array
-     */
-    protected $responseHeaders = null;
-
-    /**
      * Constructor.
      *
      * Allows you to create exceptions that are treated as framework errors and disabled

@@ -30,6 +30,7 @@ class Server
      */
     public function __construct()
     {
+        Configure::checkTokenKey();
         $this->Discord = new Discord(Configure::read('Discord'));
 
         //Initialize the ModuleManager.
@@ -50,29 +51,22 @@ class Server
     {
         $this->Discord->on('ready', function ($discord) {
 
-            // Listen for events here
             $discord->on('message', function ($message) {
-                $content = Message::getInstance()->setData($message->content);
-                $wrapper = Wrapper::getInstance()->setInstances($message, $this->ModuleManager);
-
-                //Ignore the message if the message author is the Bot. Prevent an infinite loop.
-                if ($this->Discord->id === $wrapper->Message->author->id) {
+                if ($this->Discord->id === $message->author->id) {
                     return;
                 }
 
+                $content = Message::parse($message->content);
+                $wrapper = Wrapper::getInstance()->setInstances($message, $this->ModuleManager);
+
                 //Handle the type of the message.
                 //Note : The order is very important !
-
-                //Test if the message is a private message.
                 if ($wrapper->Channel->is_private === true) {
                     $this->ModuleManager->onPrivateMessage($wrapper, $content);
-
-                //Test if the message is a command and if the command exist.
                 } elseif ($content['commandCode'] === Configure::read('Command.prefix') &&
                             isset(Configure::read('Commands')[$content['command']])) {
                     $command = Configure::read('Commands')[$content['command']];
 
-                    //Verify if the command is an admin command and if the user has the permission to use it.
                     if ((isset($command['admin']) && $command['admin'] === true) &&
                             !User::hasPermission($wrapper->Message->author->id, Configure::read('Bot.admins'))) {
                         $wrapper->Message->reply('You are not administrator of the bot.');
@@ -80,7 +74,6 @@ class Server
                         return;
                     }
 
-                    //Check if the user has given enough parameters.
                     if (count($content['arguments']) < $command['params']) {
                         $wrapper->Message->reply(Command::syntax($content));
 
@@ -88,8 +81,6 @@ class Server
                     }
 
                     $this->ModuleManager->onCommandMessage($wrapper, $content);
-
-                //Else it's a simple message.
                 } else {
                     $this->ModuleManager->onChannelMessage($wrapper, $content);
                 }

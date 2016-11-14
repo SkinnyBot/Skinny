@@ -13,8 +13,6 @@ class MessageTest extends TestCase
      */
     public function testSetData()
     {
-        $Message = Message::getInstance();
-
         $expected = [
             'raw' => '!dev param1 param2 param3',
             'parts' => [
@@ -30,7 +28,7 @@ class MessageTest extends TestCase
                     (int) 2 => 'param3'
             ]
         ];
-        $this->assertSame($expected, $Message::setData('!dev param1 param2 param3'));
+        $this->assertSame($expected, Message::setData('!dev param1 param2 param3'));
 
 
         $expected = [
@@ -43,7 +41,7 @@ class MessageTest extends TestCase
             'commandCode' => '!',
             'arguments' => []
         ];
-        $this->assertSame($expected, $Message::setData('!dev'));
+        $this->assertSame($expected, Message::setData('!dev'));
     }
 
     /**
@@ -53,8 +51,6 @@ class MessageTest extends TestCase
      */
     public function testSetValue()
     {
-        $Message = Message::getInstance();
-
         $expected = [
             'raw' => '!dev',
             'parts' => [
@@ -65,9 +61,9 @@ class MessageTest extends TestCase
             'commandCode' => '!',
             'arguments' => []
         ];
-        $this->assertSame($expected, $Message::setData('!dev'));
+        $this->assertSame($expected, Message::setData('!dev'));
 
-        $Message::setValue('raw', '!modified');
+        Message::setValue('raw', '!modified');
 
         $expected = [
             'raw' => '!modified',
@@ -79,7 +75,7 @@ class MessageTest extends TestCase
             'commandCode' => '!',
             'arguments' => []
         ];
-        $this->assertSame($expected, $Message::$data);
+        $this->assertSame($expected, Message::$data);
     }
 
     /**
@@ -89,8 +85,6 @@ class MessageTest extends TestCase
      */
     public function testSetValues()
     {
-        $Message = Message::getInstance();
-
         $values = [
             'raw' => '?wtf arg1 arg2 arg3',
             'parts' => [
@@ -103,7 +97,7 @@ class MessageTest extends TestCase
             'arguments' => ['arg1', 'arg2', 'arg3']
         ];
 
-        $Message::setValues($values);
-        $this->assertSame($values, $Message::$data);
+        Message::setValues($values);
+        $this->assertSame($values, Message::$data);
     }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <title>Skinny Documentation</title>
+
+    <parser>
+        <target>./docs/api</target>
+    </parser>
+
+    <transformer>
+        <target>./docs/api</target>
+    </transformer>
+
+    <files>
+        <directory>./src</directory>
+    </files>
+</phpdoc>

@@ -298,7 +298,7 @@ class Plugin
      *
      * @param string|null $plugin Plugin name.
      *
-     * @return array The plugin configuration if $plugin is already loaded. If $plugin is null, returns
+     * @return array The $plugin configuration if $plugin is already loaded. If $plugin is null, returns
      *   a list of plugins that have been loaded with their configuration.
      */
     public static function loadedWithValues($plugin = null)
