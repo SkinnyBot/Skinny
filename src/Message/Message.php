@@ -2,7 +2,7 @@
 namespace Skinny\Message;
 
 /**
- * @filesource
+ * This class is used to parse a raw message from Discord.
  */
 class Message
 {
@@ -33,7 +33,7 @@ class Message
      *
      *```
      *
-     * @param string $message The message to parse
+     * @param string $message The message to parse.
      *
      * @return array The data.
      */
