@@ -7,11 +7,11 @@ use Skinny\Message\Message;
 class MessageTest extends TestCase
 {
     /**
-     * testSetData method
+     * testParse method
      *
      * @return void
      */
-    public function testSetData()
+    public function testParse()
     {
         $expected = [
             'raw' => '!dev param1 param2 param3',
@@ -28,7 +28,7 @@ class MessageTest extends TestCase
                     (int) 2 => 'param3'
             ]
         ];
-        $this->assertSame($expected, Message::setData('!dev param1 param2 param3'));
+        $this->assertSame($expected, Message::parse('!dev param1 param2 param3'));
 
 
         $expected = [
@@ -41,63 +41,6 @@ class MessageTest extends TestCase
             'commandCode' => '!',
             'arguments' => []
         ];
-        $this->assertSame($expected, Message::setData('!dev'));
-    }
-
-    /**
-     * testSetValue method
-     *
-     * @return void
-     */
-    public function testSetValue()
-    {
-        $expected = [
-            'raw' => '!dev',
-            'parts' => [
-                    (int) 0 => '!dev'
-            ],
-            'command' => 'dev',
-            'message' => '',
-            'commandCode' => '!',
-            'arguments' => []
-        ];
-        $this->assertSame($expected, Message::setData('!dev'));
-
-        Message::setValue('raw', '!modified');
-
-        $expected = [
-            'raw' => '!modified',
-            'parts' => [
-                    (int) 0 => '!dev'
-            ],
-            'command' => 'dev',
-            'message' => '',
-            'commandCode' => '!',
-            'arguments' => []
-        ];
-        $this->assertSame($expected, Message::$data);
-    }
-
-    /**
-     * testSetValue method
-     *
-     * @return void
-     */
-    public function testSetValues()
-    {
-        $values = [
-            'raw' => '?wtf arg1 arg2 arg3',
-            'parts' => [
-                '?wtf',
-                'arg1 arg2 arg3'
-            ],
-            'command' => 'wtf',
-            'message' => 'arg1 arg2 arg3',
-            'commandCode' => '?',
-            'arguments' => ['arg1', 'arg2', 'arg3']
-        ];
-
-        Message::setValues($values);
-        $this->assertSame($values, Message::$data);
+        $this->assertSame($expected, Message::parse('!dev'));
     }
 }

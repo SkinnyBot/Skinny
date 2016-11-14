@@ -3,7 +3,7 @@
     <title>Skinny Documentation</title>
 
     <parser>
-        <target>./docs/api</target>
+        <target>./docs/build</target>
     </parser>
 
     <transformer>
