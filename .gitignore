@@ -7,4 +7,5 @@ composer.lock
 /config/config.php
 /vendor/*
 /coverage/*
+/docs/*
 /tests/TestBot/tmp/Modules/*
