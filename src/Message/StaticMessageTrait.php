@@ -1,6 +1,8 @@
 <?php
 namespace Skinny\Message;
 
+use InvalidArgumentException;
+
 /**
  * A trait that provides a set of static methods to manage Message class.
  */
@@ -48,6 +50,8 @@ trait StaticMessageTrait
      * @param string|array $key The name of the configuration to read, or an array of multiple configs.
      *
      * @return null
+     *
+     * @throws \InvalidArgumentException If the key is not a string or an array.
      */
     public static function config($key, $value = null)
     {
@@ -57,15 +61,15 @@ trait StaticMessageTrait
             return;
         }
 
-        if (is_array($key)) {
-            foreach ($key as $name => $value) {
-                static::$config[$name] = $value;
-            }
-
-            return;
+        if (!is_array($key)) {
+            throw new InvalidArgumentException('Only string and array can be passed to config.');
         }
 
-        static::$config[$key] = $value;
+        foreach ($key as $name => $value) {
+            static::$config[$name] = $value;
+        }
+
+        return;
     }
 
     /**
