@@ -50,7 +50,6 @@ class Server
     public function listen()
     {
         $this->Discord->on('ready', function ($discord) {
-
             $discord->on('message', function ($message) {
                 if ($this->Discord->id === $message->author->id) {
                     return;
