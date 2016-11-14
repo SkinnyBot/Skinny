@@ -4,9 +4,9 @@
   <img src="https://cloud.githubusercontent.com/assets/8210023/20224403/9d9212b2-a83e-11e6-8672-e43b513c480c.jpg" alt="Skinny Logo" height="120"/>
 </p>
 
-|Travis|Coveralls|Codacy|StyleCI|Stable Version|Downloads|License|
+|Travis|Coverage|Codacy|StyleCI|Stable Version|Downloads|License|
 |:------:|:-------:|:-------:|:-------:|:-------:|:------:|:------:|
-|[![Build Status](https://img.shields.io/travis/SkinnyBot/Skinny.svg?style=flat-square)](https://travis-ci.org/SkinnyBot/Skinny)|[![Coverage Status](https://img.shields.io/coveralls/SkinnyBot/Skinny/master.svg?style=flat-square)](https://coveralls.io/r/SkinnyBot/Skinny)|[![Codacy](https://img.shields.io/codacy/grade/9c1cf2a17fd04241a0292a2844bb5de2.svg?style=flat-square)](https://www.codacy.com/app/emeric/Skinny)|[![StyleCI](https://styleci.io/repos/73175729/shield)](https://styleci.io/repos/73175729)|[![Latest Stable Version](https://img.shields.io/packagist/v/SkinnyBot/Skinny.svg?style=flat-square)](https://packagist.org/packages/skinnybot/skinny)|[![Total Downloads](https://img.shields.io/packagist/dt/skinnybot/skinny.svg?style=flat-square)](https://packagist.org/packages/skinnybot/skinny)|[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/skinnybot/skinny)
+|[![Build Status](https://img.shields.io/travis/SkinnyBot/Skinny.svg?style=flat-square)](https://travis-ci.org/SkinnyBot/Skinny)|[![Coverage](https://img.shields.io/codacy/coverage/9c1cf2a17fd04241a0292a2844bb5de2.svg?style=flat-square)](https://www.codacy.com/app/SkinnyBot/Skinny)|[![Codacy](https://img.shields.io/codacy/grade/9c1cf2a17fd04241a0292a2844bb5de2.svg?style=flat-square)](https://www.codacy.com/app/SkinnyBot/Skinny)|[![StyleCI](https://styleci.io/repos/73175729/shield)](https://styleci.io/repos/73175729)|[![Latest Stable Version](https://img.shields.io/packagist/v/SkinnyBot/Skinny.svg?style=flat-square)](https://packagist.org/packages/skinnybot/skinny)|[![Total Downloads](https://img.shields.io/packagist/dt/skinnybot/skinny.svg?style=flat-square)](https://packagist.org/packages/skinnybot/skinny)|[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/skinnybot/skinny)
 
 A framework to create discord bot in PHP using [DiscordPHP](https://github.com/teamreflex/DiscordPHP).
 
