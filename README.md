@@ -253,7 +253,6 @@ The Module plugin is a module that allow you to manage modules with commands. In
 This plugin is primary used to show how to create plugin and for testing purpose. Installed by default in the Skinny Skeleton.
 
 
-
 # Contribute
 [Follow this guide to contribute](https://github.com/SkinnyBot/Skinny/blob/master/.github/CONTRIBUTING.md)
 
