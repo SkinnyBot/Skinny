@@ -5,6 +5,5 @@ use Skinny\Message\StaticMessageTrait;
 
 class StaticMessageTraitTestCase
 {
-     use StaticMessageTrait;
-
+    use StaticMessageTrait;
 }
