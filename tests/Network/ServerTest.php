@@ -35,7 +35,7 @@ class ServerTest extends TestCase
     }
 
     /**
-     * testConstruct method
+     * testConstructWithModulesPriority method
      *
      * @return void
      */
