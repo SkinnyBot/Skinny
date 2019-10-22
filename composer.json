@@ -16,8 +16,7 @@
         }
     ],
     "require": {
-        "php": ">=5.6",
-        "team-reflex/discord-php": "4.*",
+        "php": ">=7.3",
         "skinnybot/plugin-installer": "~1.0"
     },
     "require-dev": {
@@ -37,5 +36,5 @@
             "SkinnyTest\\": "tests"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
