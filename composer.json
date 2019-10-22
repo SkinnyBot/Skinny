@@ -17,13 +17,13 @@
     ],
     "require": {
         "php": ">=7.3",
-        "skinnybot/plugin-installer": "dev-master",
+        "skinnybot/plugin-installer": "~2.0",
         "charlottedunois/yasmin": "^0.6.2",
         "envms/fluentpdo": "^2.1.0",
         "cakephp/chronos": "^1.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "*",
+        "phpunit/phpunit": "~8.0",
         "squizlabs/php_codesniffer": "~3.0"
     },
     "autoload": {
@@ -38,5 +38,6 @@
         "psr-4": {
             "SkinnyTest\\": "tests"
         }
-    }
+    },
+    "minimum-stability": "stable"
 }
