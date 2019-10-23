@@ -1,6 +1,7 @@
 <?php
 namespace Skinny\Network;
 
+use Skinny\Core\Configure;
 use Skinny\Singleton\Singleton;
 
 /**
@@ -19,28 +20,28 @@ class Wrapper extends Singleton
     /**
      * The Message instance.
      *
-     * @var \Discord\Parts\Channel\Message
+     * @var \CharlotteDunois\Yasmin\Models\Message
      */
     public $Message;
 
     /**
-     * The ModuleManager instance.
+     * The Channel instance.
      *
-     * @var \Discord\Parts\Channel\Channel
+     * @var \CharlotteDunois\Yasmin\Models\TextChannel
      */
     public $Channel;
 
     /**
-     * The ModuleManager instance.
+     * The Guild instance.
      *
-     * @var \Discord\Parts\Guild\Guild
+     * @var \CharlotteDunois\Yasmin\Models\Guild
      */
     public $Guild;
 
     /**
-     * The ModuleManager instance.
+     * The Members instance.
      *
-     * @var \Discord\Repository\Guild\MemberRepository
+     * @var \CharlotteDunois\Yasmin\Models\GuildMemberStorage
      */
     public $Members;
 
@@ -52,19 +53,13 @@ class Wrapper extends Singleton
      *
      * @return object Return this Wrapper.
      */
-    public function setInstances($message, $moduleManager)
+    public function setInstances($message, $moduleManager, $discord)
     {
         $this->ModuleManager = $moduleManager;
         $this->Message = $message;
         $this->Channel = $message->channel;
-
-        if (isset($message->channel->guild) && is_object($message->channel->guild)) {
-            $this->Guild = $message->channel->guild;
-        }
-
-        if (isset($message->channel->guild->members) && is_object($message->channel->guild->members)) {
-            $this->Members = $message->channel->guild->members;
-        }
+        $this->Guild = $discord->guilds->resolve(Configure::read('Discord.guild'));
+        $this->Members = $this->Guild->members;
 
         return $this;
     }
