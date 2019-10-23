@@ -87,11 +87,24 @@ class Server
                 $command = Configure::read('Commands')[$content['command']];
 
                 // Check if the command is an Admin command and if yes,
-                //check the permissions of the user.
+                //check the permissions of the user. (Authorized for Admins and Developers)
                 if ((isset($command['admin']) && $command['admin'] === true) &&
-                        !User::hasPermission($wrapper, Configure::read('Discord.admins'))) {
+                        !User::hasPermission($wrapper, Configure::read('Discord.admins')) &&
+                        !User::hasPermission($wrapper, Configure::read('Discord.developers'))
+                    ) {
                     $wrapper->Message->reply(
                         ':octagonal_sign: You are not administrator of the bot. :octagonal_sign:'
+                    );
+
+                    return;
+                }
+
+                // Check if the command is a Developer command and if yes,
+                //check the permissions of the user.
+                if ((isset($command['developer']) && $command['developer'] === true) &&
+                        !User::hasPermission($wrapper, Configure::read('Discord.developers'))) {
+                    $wrapper->Message->reply(
+                        ':octagonal_sign: You are not a developer of the bot. :octagonal_sign:'
                     );
 
                     return;
