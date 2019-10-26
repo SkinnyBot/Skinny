@@ -3,6 +3,7 @@ namespace Skinny\Network;
 
 use Cake\Chronos\Chronos;
 use CharlotteDunois\Yasmin\Client;
+use CharlotteDunois\Yasmin\Models\GuildMember;
 use React\EventLoop\Factory;
 use Skinny\Core\Configure;
 use Skinny\Message\Message;
@@ -75,7 +76,7 @@ class Server
             $content = Message::parse($message->content);
 
             // Initialise the Wrapper.
-            $wrapper = Wrapper::getInstance()->setInstances($message, $this->ModuleManager, $this->Discord);
+            $wrapper = Wrapper::getInstance()->setInstances($this->ModuleManager, $this->Discord, $message);
 
             //Handle the type of the message.
             //Note : The order is very important !
@@ -121,6 +122,24 @@ class Server
             } else {
                 $this->ModuleManager->onChannelMessage($wrapper, $content);
             }
+        });
+
+        $this->Discord->on('guildMemberAdd', function (GuildMember $member) {
+                $wrapper = Wrapper::getInstance()->setInstances($this->ModuleManager, $this->Discord);
+
+                $this->ModuleManager->onGuildMemberAdd($wrapper, $member);
+           // }
+
+        });
+
+        $this->Discord->on('guildMemberRemove', function (GuildMember $member) {
+                $wrapper = Wrapper::getInstance()->setInstances($this->ModuleManager, $this->Discord);
+
+                $this->ModuleManager->onGuildMemberRemove($wrapper, $member);
+        });
+
+        $this->Discord->on('error', function ($error) {
+            echo $error.PHP_EOL;
         });
     }
 

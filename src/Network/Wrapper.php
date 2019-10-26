@@ -48,16 +48,20 @@ class Wrapper extends Singleton
     /**
      * Set the instances to the Wrapper.
      *
-     * @param \Discord\Parts\Channel\Message $message The messages object.
      * @param \Skinny\Module\ModuleManager $moduleManager The ModuleManager object.
+     * @param \CharlotteDunois\Yasmin\Client $discord The client object.
+     * @param \Discord\Parts\Channel\Message $message The messages object.
      *
      * @return object Return this Wrapper.
      */
-    public function setInstances($message, $moduleManager, $discord)
+    public function setInstances($moduleManager, $discord, $message = null)
     {
         $this->ModuleManager = $moduleManager;
         $this->Message = $message;
-        $this->Channel = $message->channel;
+
+        if (!is_null($message)) {
+            $this->Channel = $message->channel;
+        }
         $this->Guild = $discord->guilds->resolve(Configure::read('Discord.guild'));
         $this->Members = $this->Guild->members;
 

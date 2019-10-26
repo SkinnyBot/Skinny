@@ -13,7 +13,7 @@ interface ModuleInterface
      *
      * @return void
      */
-    public function onChannelMessage(Wrapper $wrapper, $message);
+    //public function onChannelMessage(Wrapper $wrapper, $message);
 
     /**
      * Called when a command is posted in a channel.
@@ -23,7 +23,7 @@ interface ModuleInterface
      *
      * @return void
      */
-    public function onCommandMessage(Wrapper $wrapper, $message);
+    //public function onCommandMessage(Wrapper $wrapper, $message);
 
     /**
      * Called when someone has send a private message to the bot.
@@ -33,5 +33,25 @@ interface ModuleInterface
      *
      * @return void
      */
-    public function onPrivateMessage(Wrapper $wrapper, $message);
+    //public function onPrivateMessage(Wrapper $wrapper, $message);
+
+    /**
+     *  Called when someone joined the guild.
+     *
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
+     * @param array $message The message array.
+     *
+     * @return void
+     */
+    //public function onGuildMemberAdd(Wrapper $wrapper, $member);
+
+    /**
+     *  Called when someone left the guild.
+     *
+     * @param \Skinny\Network\Wrapper $wrapper The Wrapper instance.
+     * @param array $message The message array.
+     *
+     * @return void
+     */
+    //public function guildMemberRemove(Wrapper $wrapper, $member);
 }
