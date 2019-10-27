@@ -228,6 +228,7 @@ class ModuleManager implements ArrayAccess, Countable
         $path = $config['pathDir'] . DS . $module . '.php';
         $className = Configure::read('App.namespace') . DS . 'Module' . DS . 'Modules' . DS . $module;
 
+
         if (Configure::read('debug') === false) {
             require_once $path;
         } else {

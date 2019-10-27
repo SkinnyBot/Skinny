@@ -3,6 +3,7 @@ namespace Skinny\Network;
 
 use Skinny\Core\Configure;
 use Skinny\Singleton\Singleton;
+use PDO;
 
 /**
  * This class is a wrapper to separate all the Discord classes into variables
@@ -10,6 +11,9 @@ use Skinny\Singleton\Singleton;
  */
 class Wrapper extends Singleton
 {
+
+    public $PDO;
+
     /**
      * The ModuleManager instance.
      *
@@ -56,6 +60,11 @@ class Wrapper extends Singleton
      */
     public function setInstances($moduleManager, $discord, $message = null)
     {
+        $this->PDO = new PDO(
+            "mysql:host=" . Configure::read('Mysql.host') . ";dbname=" . Configure::read('Mysql.database'),
+            Configure::read('Mysql.user'),
+            Configure::read('Mysql.password')
+        );
         $this->ModuleManager = $moduleManager;
         $this->Message = $message;
 
