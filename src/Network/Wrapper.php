@@ -1,7 +1,9 @@
 <?php
 namespace Skinny\Network;
 
+use Skinny\Core\Configure;
 use Skinny\Singleton\Singleton;
+use PDO;
 
 /**
  * This class is a wrapper to separate all the Discord classes into variables
@@ -9,6 +11,9 @@ use Skinny\Singleton\Singleton;
  */
 class Wrapper extends Singleton
 {
+
+    public $PDO;
+
     /**
      * The ModuleManager instance.
      *
@@ -19,52 +24,55 @@ class Wrapper extends Singleton
     /**
      * The Message instance.
      *
-     * @var \Discord\Parts\Channel\Message
+     * @var \CharlotteDunois\Yasmin\Models\Message
      */
     public $Message;
 
     /**
-     * The ModuleManager instance.
+     * The Channel instance.
      *
-     * @var \Discord\Parts\Channel\Channel
+     * @var \CharlotteDunois\Yasmin\Models\TextChannel
      */
     public $Channel;
 
     /**
-     * The ModuleManager instance.
+     * The Guild instance.
      *
-     * @var \Discord\Parts\Guild\Guild
+     * @var \CharlotteDunois\Yasmin\Models\Guild
      */
     public $Guild;
 
     /**
-     * The ModuleManager instance.
+     * The Members instance.
      *
-     * @var \Discord\Repository\Guild\MemberRepository
+     * @var \CharlotteDunois\Yasmin\Models\GuildMemberStorage
      */
     public $Members;
 
     /**
      * Set the instances to the Wrapper.
      *
-     * @param \Discord\Parts\Channel\Message $message The messages object.
      * @param \Skinny\Module\ModuleManager $moduleManager The ModuleManager object.
+     * @param \CharlotteDunois\Yasmin\Client $discord The client object.
+     * @param \Discord\Parts\Channel\Message $message The messages object.
      *
      * @return object Return this Wrapper.
      */
-    public function setInstances($message, $moduleManager)
+    public function setInstances($moduleManager, $discord, $message = null)
     {
+        $this->PDO = new PDO(
+            "mysql:host=" . Configure::read('Mysql.host') . ";dbname=" . Configure::read('Mysql.database'),
+            Configure::read('Mysql.user'),
+            Configure::read('Mysql.password')
+        );
         $this->ModuleManager = $moduleManager;
         $this->Message = $message;
-        $this->Channel = $message->channel;
 
-        if (isset($message->channel->guild) && is_object($message->channel->guild)) {
-            $this->Guild = $message->channel->guild;
+        if (!is_null($message)) {
+            $this->Channel = $message->channel;
         }
-
-        if (isset($message->channel->guild->members) && is_object($message->channel->guild->members)) {
-            $this->Members = $message->channel->guild->members;
-        }
+        $this->Guild = $discord->guilds->resolve(Configure::read('Discord.guild'));
+        $this->Members = $this->Guild->members;
 
         return $this;
     }

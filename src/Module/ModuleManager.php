@@ -77,24 +77,21 @@ class ModuleManager implements ArrayAccess, Countable
      * work is done.
      *
      * @param string $method The method to check.
-     * @param array  $arguments The arguments to pass to the function.
+     * @param array $arguments The arguments to pass to the function.
      *
      * @return bool
      */
     public function __call($method, array $arguments)
     {
-        //Add out predefined prefix argument to the total list.
         if (!is_null($this->prefixArgument)) {
             array_unshift($arguments, $this->prefixArgument);
         }
 
         foreach ($this->loadedModules as $module) {
-            //Check if the module has the method.
             if (!method_exists($module['object'], $method)) {
                 continue;
             }
 
-            //Check if we should stop calling modules.
             if (call_user_func_array([$module['object'], $method], $arguments) === self::STOP) {
                 break;
             }
@@ -134,7 +131,6 @@ class ModuleManager implements ArrayAccess, Countable
         foreach ($files as $file) {
             $filename = $file->getFilename();
             if ($file->isDot() || $file->isDir() || $filename[0] == '.') {
-                // Ignore hidden files and directories.
                 continue;
             } elseif ($file->isFile() && substr($filename, -4) != '.php') {
                 continue;
@@ -231,6 +227,7 @@ class ModuleManager implements ArrayAccess, Countable
 
         $path = $config['pathDir'] . DS . $module . '.php';
         $className = Configure::read('App.namespace') . DS . 'Module' . DS . 'Modules' . DS . $module;
+
 
         if (Configure::read('debug') === false) {
             require_once $path;

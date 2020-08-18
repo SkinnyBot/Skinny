@@ -1,7 +1,10 @@
 <?php
 namespace Skinny\Network;
 
-use Discord\Discord;
+use Cake\Chronos\Chronos;
+use CharlotteDunois\Yasmin\Client;
+use CharlotteDunois\Yasmin\Models\GuildMember;
+use React\EventLoop\Factory;
 use Skinny\Core\Configure;
 use Skinny\Message\Message;
 use Skinny\Module\ModuleManager;
@@ -14,7 +17,7 @@ class Server
     /**
      * The Discord instance.
      *
-     * @var \Discord\Discord
+     * @var \CharlotteDunois\Yasmin\Client
      */
     public $Discord;
 
@@ -31,7 +34,13 @@ class Server
     public function __construct()
     {
         Configure::checkTokenKey();
-        $this->Discord = new Discord(Configure::read('Discord'));
+        // Create ReactPHP event loop
+        $loop = Factory::create();
+
+        // Create the client
+        $this ->Discord = new Client([], $loop);
+
+        //$this->Discord = new Discord(Configure::read('Discord'));
 
         //Initialize the ModuleManager.
         $modulesPriorities = [];
@@ -49,41 +58,88 @@ class Server
      */
     public function listen()
     {
-        $this->Discord->on('ready', function ($discord) {
-            $discord->on('message', function ($message) {
-                if ($this->Discord->id === $message->author->id) {
+        $this->Discord->on('ready', function () {
+            debug('Successfully logged into ' . $this->Discord->user->tag);
+
+            $this->Discord->user->setGame(Configure::read('Bot.game'));
+            $this->Discord->user->setStatus(Configure::read('Bot.status'));
+            $this->Discord->user->setUsername(Configure::read('Bot.username'));
+            $this->Discord->user->setAvatar(Configure::read('Bot.avatar'));
+        });
+
+        $this->Discord->on('message', function (\CharlotteDunois\Yasmin\Models\Message $message) {
+            // Check if the author of the message is not the bot.
+            if ($this->Discord->user->id === $message->author->id) {
+                return;
+            }
+            // Parse the message.
+            $content = Message::parse($message->content);
+
+            // Initialise the Wrapper.
+            $wrapper = Wrapper::getInstance()->setInstances($this->ModuleManager, $this->Discord, $message);
+
+            //Handle the type of the message.
+            //Note : The order is very important !
+            if ($wrapper->Message->type === 'RECIPIENT_ADD' || $wrapper->Message->type === 'CALL') {
+                debug('message privé');
+                $this->ModuleManager->onPrivateMessage($wrapper, $content);
+            } elseif ($content['commandCode'] === Configure::read('Command.prefix') &&
+                        isset(Configure::read('Commands')[$content['command']])) {
+                $command = Configure::read('Commands')[$content['command']];
+
+                // Check if the command is an Admin command and if yes,
+                //check the permissions of the user. (Authorized for Admins and Developers)
+                if ((isset($command['admin']) && $command['admin'] === true) &&
+                        !User::hasPermission($wrapper, Configure::read('Discord.admins')) &&
+                        !User::hasPermission($wrapper, Configure::read('Discord.developers'))
+                    ) {
+                    $wrapper->Message->reply(
+                        ':octagonal_sign: You are not administrator of the bot. :octagonal_sign:'
+                    );
+
                     return;
                 }
 
-                $content = Message::parse($message->content);
-                $wrapper = Wrapper::getInstance()->setInstances($message, $this->ModuleManager);
+                // Check if the command is a Developer command and if yes,
+                //check the permissions of the user.
+                if ((isset($command['developer']) && $command['developer'] === true) &&
+                        !User::hasPermission($wrapper, Configure::read('Discord.developers'))) {
+                    $wrapper->Message->reply(
+                        ':octagonal_sign: You are not a developer of the bot. :octagonal_sign:'
+                    );
 
-                //Handle the type of the message.
-                //Note : The order is very important !
-                if ($wrapper->Channel->is_private === true) {
-                    $this->ModuleManager->onPrivateMessage($wrapper, $content);
-                } elseif ($content['commandCode'] === Configure::read('Command.prefix') &&
-                            isset(Configure::read('Commands')[$content['command']])) {
-                    $command = Configure::read('Commands')[$content['command']];
-
-                    if ((isset($command['admin']) && $command['admin'] === true) &&
-                            !User::hasPermission($wrapper->Message->author->id, Configure::read('Bot.admins'))) {
-                        $wrapper->Message->reply('You are not administrator of the bot.');
-
-                        return;
-                    }
-
-                    if (count($content['arguments']) < $command['params']) {
-                        $wrapper->Message->reply(Command::syntax($content));
-
-                        return;
-                    }
-
-                    $this->ModuleManager->onCommandMessage($wrapper, $content);
-                } else {
-                    $this->ModuleManager->onChannelMessage($wrapper, $content);
+                    return;
                 }
-            });
+
+                // Check the syntax of the command.
+                if (count($content['arguments']) < $command['params']) {
+                    $wrapper->Message->reply(Command::syntax($content));
+
+                    return;
+                }
+
+                $this->ModuleManager->onCommandMessage($wrapper, $content);
+            } else {
+                $this->ModuleManager->onChannelMessage($wrapper, $content);
+            }
+        });
+
+        $this->Discord->on('guildMemberAdd', function (GuildMember $member) {
+                $wrapper = Wrapper::getInstance()->setInstances($this->ModuleManager, $this->Discord);
+
+                $this->ModuleManager->onGuildMemberAdd($wrapper, $member);
+           // }
+
+        });
+
+        $this->Discord->on('guildMemberRemove', function (GuildMember $member) {
+                $wrapper = Wrapper::getInstance()->setInstances($this->ModuleManager, $this->Discord);
+
+                $this->ModuleManager->onGuildMemberRemove($wrapper, $member);
+        });
+
+        $this->Discord->on('error', function ($error) {
+            echo $error.PHP_EOL;
         });
     }
 
@@ -95,7 +151,8 @@ class Server
     public function startup()
     {
         $this->listen();
+        $this->Discord->login(Configure::read('Bot.token'));
 
-        $this->Discord->run();
+        $this->Discord->loop->run();
     }
 }

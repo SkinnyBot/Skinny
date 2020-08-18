@@ -393,8 +393,13 @@ class Configure
     public static function checkTokenKey()
     {
         if (Configure::read('Discord.token') === 'insert-your-token-here') {
-            throw new RuntimeException(sprintf('Please change the value of %s in %s to a valid token.',
-                '\'Discord.token\'', ROOT . '/config/config.php'));
+            throw new RuntimeException(
+                sprintf(
+                    'Please change the value of %s in %s to a valid token.',
+                    '\'Discord.token\'',
+                    ROOT . '/config/config.php'
+                )
+            );
         }
     }
 

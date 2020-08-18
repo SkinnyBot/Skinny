@@ -139,7 +139,7 @@ For example with the phrase `!dev param1 param2 param3 etc`, we will have the fo
 
 #### The object `$wrapper`
 
-The object is an instance of the class [Skinny\Network\Wrapper](https://github.com/SkinnyBot/Skinny/blob/master/src/Network/Wrapper.php) and is used as a wrapper to split all the Discord's classes for a better accessibility and clarity when developing modules.
+The object `$wrapper` is an instance of the class [Skinny\Network\Wrapper](https://github.com/SkinnyBot/Skinny/blob/master/src/Network/Wrapper.php) and is used as a wrapper to split all the Discord's classes for a better accessibility and clarity when developing modules.
 
 For example, doing a `debug()` on this object would generate the following output :
 ```php
