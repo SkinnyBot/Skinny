@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^7.3",
-        "team-reflex/discord-php": "dev-master",
+        "team-reflex/discord-php": "^4.0",
         "skinnybot/plugin-installer": "^2.0"
     },
     "require-dev": {
